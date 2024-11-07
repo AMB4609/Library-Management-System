@@ -1,6 +1,7 @@
 package com.lambdacode.librarymanagementsystem.controller;
 
 import com.lambdacode.librarymanagementsystem.dto.RegisterDTO;
+import com.lambdacode.librarymanagementsystem.model.Staff;
 import com.lambdacode.librarymanagementsystem.model.User;
 import com.lambdacode.librarymanagementsystem.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,15 @@ public class RegisterController {
             User savedUser = registerService.registerUser(registerDTO);
             return ResponseEntity.ok(savedUser);
         } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+    @PostMapping("/registerStaff")
+    public ResponseEntity<Staff> registerStaff(@RequestBody RegisterDTO registerDTO){
+        try{
+            Staff savedStaff = registerService.registerStaff(registerDTO);
+            return ResponseEntity.ok(savedStaff);
+        }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

@@ -5,9 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Data
-@Setter
 @Getter
-public class LoginDTO {
-    private String Email;
-    private String Password;
+@Setter
+public class UpdateBookDTO {
+    private Long bookId;
+
+    private Long booksAvailable;
+
 }

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 
@@ -41,7 +40,7 @@ public class Books {
 
     private String iSBN;
 
-    public Long booksAvailable;
+    private Long booksAvailable;
 
     private Boolean status;
 

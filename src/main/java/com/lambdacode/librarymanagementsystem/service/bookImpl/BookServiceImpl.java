@@ -1,7 +1,7 @@
 package com.lambdacode.librarymanagementsystem.service.bookImpl;
 
 import com.lambdacode.librarymanagementsystem.dto.BookDTO;
-import com.lambdacode.librarymanagementsystem.mapper.BookMapper;
+import com.lambdacode.librarymanagementsystem.dto.UpdateBookDTO;
 import com.lambdacode.librarymanagementsystem.model.Author;
 import com.lambdacode.librarymanagementsystem.model.Books;
 import com.lambdacode.librarymanagementsystem.model.Category;
@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Book;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -60,17 +62,49 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseEntity<Void> updateBookStatus(BookDTO bookDTO) {
-        Books books = new Books();
-        books.setBookId(bookDTO.getBookId());
-        books.setBooksAvailable(bookDTO.getBooksAvailable());
-        books.setStatus(bookDTO.getStatus());
-        if(books.booksAvailable > 1){
+    public ResponseEntity<Void> updateBookStatus(UpdateBookDTO updatebookDTO) {
+
+        Optional<Books> booksOptional = bookRepository.findById(updatebookDTO.getBookId());
+        Books books = booksOptional.get();
+        if(booksOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        }
+       // if(books.getBookId().equals(updatebookDTO.getBookId())){
+          //  Books updatebooks = new Books();
+
+            books.setBooksAvailable(updatebookDTO.getBooksAvailable());
+            if(books.getBooksAvailable() > 1){
+                books.setStatus(Boolean.FALSE);
+            }
             bookRepository.save(books);
             return ResponseEntity.ok().build();
         }
-        else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+    @Override
+    public void deleteBookById(BookDTO bookDTO) {
+        Optional<Books> booksOptional = bookRepository.findById(bookDTO.getBookId());
+        Books books = booksOptional.get();
+        if(booksOptional.isEmpty()){
+            throw new NoSuchElementException("Book not found for ID: " + bookDTO.getBookId());
         }
+        bookRepository.delete(books);
     }
+
+    @Override
+    public List getAllBooks() {
+        return bookRepository.findAll();
+    }
+
+    @Override
+    public Books getBookById(BookDTO bookDTO) {
+        Optional<Books> booksOptional = bookRepository.findById(bookDTO.getBookId());
+        Books books = booksOptional.get();
+        if(!booksOptional.isPresent()){
+            throw new NoSuchElementException("Book not found for ID: " + bookDTO.getBookId());
+        }
+        return books;
+    }
+
 }
+

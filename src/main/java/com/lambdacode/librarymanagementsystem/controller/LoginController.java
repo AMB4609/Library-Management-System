@@ -19,7 +19,7 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
     @PostMapping("/loginUser")
-    public ResponseEntity<User> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<Object> login(@RequestBody LoginDTO loginDTO) {
         try{
             return ResponseEntity.ok(loginService.loginUser(loginDTO));
         }catch(Exception e){

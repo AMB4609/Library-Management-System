@@ -4,6 +4,6 @@ import com.lambdacode.librarymanagementsystem.dto.LoginDTO;
 import com.lambdacode.librarymanagementsystem.model.User;
 
 public interface LoginService {
-    User loginUser(LoginDTO loginDTO) throws Exception;
+    Object loginUser(LoginDTO loginDTO) throws Exception;
 
 }

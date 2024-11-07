@@ -3,7 +3,6 @@ package com.lambdacode.librarymanagementsystem.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.awt.print.Book;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -23,7 +22,7 @@ public class ReviewAndRating {
 
     @ManyToOne
     @JoinColumn(name = "book_id")
-    private Books book;
+    private Books books;
 
     private String rating;
 

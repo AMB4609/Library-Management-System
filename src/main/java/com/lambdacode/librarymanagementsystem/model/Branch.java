@@ -4,8 +4,6 @@ package com.lambdacode.librarymanagementsystem.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class Branch {
 
     @ManyToMany
     @JoinTable(name = "book_id")
-    private List<Books> book;
+    private List<Books> books;
 
     @ManyToOne
     @JoinColumn(name ="staff_id")
