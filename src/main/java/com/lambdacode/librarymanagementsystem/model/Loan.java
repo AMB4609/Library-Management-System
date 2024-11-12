@@ -24,8 +24,9 @@ public class Loan {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "checkout_date")
     private LocalDate checkoutDate;
-
+@Column(name = "due_date")
     private LocalDate dueDate;
 
     private LocalDate returnDate;

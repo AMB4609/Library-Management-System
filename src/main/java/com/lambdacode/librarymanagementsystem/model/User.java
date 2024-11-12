@@ -1,5 +1,6 @@
 package com.lambdacode.librarymanagementsystem.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -14,16 +15,21 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue
-    private Long userId;
+    private Long id;
 
-    private String userName;
+    @Column(name = "user_name")
+    private String name;
 
-    private String userPassword;
+    @Column(name = "user_password")
+    private String password;
 
-    private String userEmail;
+    @Column(name = "user_email")
+    private String email;
 
-    private Long userPhone;
+    @Column(name = "user_phone")
+    private Long phone;
 
-    private String userAddress;
+    @Column(name = "user_address")
+    private String address;
 
 }

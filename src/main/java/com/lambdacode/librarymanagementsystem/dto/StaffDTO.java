@@ -8,13 +8,14 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class RegisterDTO {
-    private Long id;
-    private String name;
-    private String password;
-    private Long phone;
-    private String email;
-    private String address;
+public class StaffDTO {
+    private Long staffId;
+    private String staffName;
     private Branch branch;
+    private String staffPassword;
+    private String staffEmail;
+    private Long staffPhone;
+    private String staffAddress;
     private String position;
+
 }

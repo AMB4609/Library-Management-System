@@ -13,21 +13,23 @@ import lombok.*;
 public class Staff {
     @Id
     @GeneratedValue
-    private Long StaffId;
+    @Column(name = "staff_id")
+    private Long Id;
 
     @ManyToOne
     @JoinColumn(name = "branchId")
     private Branch branch;
 
-    private String staffName;
-
-    private String staffPassword;
-
-    private String staffPhone;
-
-    private String staffEmail;
-
-    private String staffAddress;
-
+    @Column(name = "staff_name")
+    private String name;
+    @Column(name = "staff_password")
+    private String password;
+    @Column(name = "staff_phone")
+    private Long    phone;
+    @Column(name = "staff_email")
+    private String email;
+    @Column(name = "staff_address")
+    private String address;
+    @Column(name = "position")
     private String position;
 }
