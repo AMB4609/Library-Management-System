@@ -24,7 +24,7 @@ public class RegisterController {
             User savedUser = registerService.registerUser(registerDTO);
             return ResponseEntity.ok(savedUser);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            return new ResponseEntity<>(new User(),HttpStatus.CONFLICT);
         }
     }
     @PostMapping("/registerStaff")
@@ -33,7 +33,7 @@ public class RegisterController {
             Staff savedStaff = registerService.registerStaff(registerDTO);
             return ResponseEntity.ok(savedStaff);
         }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            return new ResponseEntity<>(new Staff(),HttpStatus.CONFLICT);
         }
     }
 }

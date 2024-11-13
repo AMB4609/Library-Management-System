@@ -7,8 +7,12 @@ import com.lambdacode.librarymanagementsystem.model.User;
 import com.lambdacode.librarymanagementsystem.model.UserPrinciple;
 import com.lambdacode.librarymanagementsystem.repository.StaffRepository;
 import com.lambdacode.librarymanagementsystem.repository.UserRepository;
+import com.lambdacode.librarymanagementsystem.service.JWTService;
 import com.lambdacode.librarymanagementsystem.service.LoginService;
+import com.lambdacode.librarymanagementsystem.service.MyUserDetailsServiceImpl.MyUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,19 +25,57 @@ import java.util.Optional;
 
 @Service
 public class LoginServiceImpl implements LoginService {
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private StaffRepository staffRepository;
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JWTService jwtService;
+    @Autowired
+    private MyUserDetailsServiceImpl myUserDetailsServiceImpl;
+
     @Override
     public Object verifyLogin(LoginDTO loginDTO) throws Exception {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),loginDTO.getPassword()));
-        if(authentication.isAuthenticated())
-            return "Success";
-        return "fail";
-    }}
+        String entityType = null; // Initialize entityType to null
+        String role = null;       // Initialize role to null
+
+        // Load UserDetails by email (username)
+        UserDetails userDetails = myUserDetailsServiceImpl.loadUserByUsername(loginDTO.getEmail());
+
+        // Authenticate the user
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+
+        // Check if authentication was successful
+        if (authentication.isAuthenticated()) {
+            // Determine if the user is a `staff` or a `user`
+            if (userDetails instanceof StaffPrinciple) {
+                entityType = "staff";
+                role = ((StaffPrinciple) userDetails).getPosition();  // Get role/position of the staff member
+            } else if (userDetails instanceof UserPrinciple) {
+                entityType = "user";
+                // role remains null for users since it's not applicable here
+            } else {
+                // If neither, return unauthorized response
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            }
+
+            // Debug output to verify values of entityType and role
+            System.out.println("Entity Type: " + entityType);
+            System.out.println("Role: " + role);
+
+            // Generate and return the JWT token
+            return jwtService.generateToken(loginDTO.getEmail(), entityType, role);
+        }
+
+        // If authentication failed, return a failure response
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
+    }
+}
+
 //        Optional<User> optionalUser = userRepository.findByEmail(loginDTO.getEmail());
 //        Optional<Staff> optionalStaff = staffRepository.findByEmail(loginDTO.getEmail());
 //

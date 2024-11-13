@@ -2,6 +2,7 @@ package com.lambdacode.librarymanagementsystem.controller;
 
 import com.lambdacode.librarymanagementsystem.dto.LoginDTO;
 import com.lambdacode.librarymanagementsystem.model.User;
+import com.lambdacode.librarymanagementsystem.service.JWTService;
 import com.lambdacode.librarymanagementsystem.service.LoginService;
 import com.lambdacode.librarymanagementsystem.service.MyUserDetailsServiceImpl.MyUserDetailsServiceImpl;
 //import com.lambdacode.librarymanagementsystem.service.loginImpl.LoginServiceImpl;
@@ -21,13 +22,15 @@ import org.springframework.web.server.ResponseStatusException;
 public class LoginController {
     @Autowired
     private MyUserDetailsServiceImpl userDetailsService;
-    public ResponseEntity<Object> login(@RequestBody String email) {
-        try{
-            return ResponseEntity.ok(userDetailsService.loadUserByUsername(email));
-        }catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
+    @Autowired
+    private JWTService jwtService;
+//    public ResponseEntity<Object> login(@RequestBody String email) {
+//        try{
+//            return ResponseEntity.ok(userDetailsService.loadUserByUsername(email));
+//        }catch(Exception e){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+//        }
+//    }
     @Autowired
     private LoginService loginService;
     @PostMapping("/loginUser")

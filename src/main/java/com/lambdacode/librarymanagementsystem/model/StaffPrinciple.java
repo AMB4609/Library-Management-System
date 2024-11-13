@@ -16,7 +16,7 @@ public class StaffPrinciple implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("Staff"));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + staff.getPosition()));
     }
 
     @Override
@@ -27,6 +27,10 @@ public class StaffPrinciple implements UserDetails {
     @Override
     public String getUsername() {
         return staff.getEmail();
+    }
+
+    public String getPosition(){
+        return staff.getPosition();
     }
 
     @Override

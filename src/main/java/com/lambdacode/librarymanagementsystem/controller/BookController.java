@@ -8,6 +8,7 @@ import com.lambdacode.librarymanagementsystem.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Book;
@@ -23,6 +24,7 @@ public class BookController {
     private BookRepository bookRepository;
 
     @PostMapping("/addBook")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> addBook(@RequestBody BookDTO bookDTO) {
         try {
             bookService.addBook(bookDTO);
@@ -38,6 +40,7 @@ public class BookController {
     return ResponseEntity.ok().build();
 }
     @DeleteMapping("/deleteBookById")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_LIBRARIAN')")
     public ResponseEntity<Void> deleteBookByID(@RequestBody BookDTO bookDTO) {
         try{
             bookService.deleteBookById(bookDTO);
@@ -48,6 +51,7 @@ public class BookController {
 
     }
     @GetMapping("/getAllBooks")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseEntity<List<BookDTO>> getAllBooks() {
         try{
             List<BookDTO> books = bookService.getAllBooks();
@@ -58,6 +62,7 @@ public class BookController {
 
     }
     @GetMapping("/getBookById")
+
     public ResponseEntity<Books> getBookByID(@RequestBody BookDTO bookDTO) {
         try{
            Books books =  bookService.getBookById(bookDTO);
