@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -18,9 +19,8 @@ public class Branch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long branchId;
 
-    @ManyToMany
-    @JoinTable(name = "book_id")
-    private List<Books> books;
+//    @ManyToMany(mappedBy = "branches")
+//    private List<Books> books = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name ="staff_id")
@@ -37,9 +37,13 @@ public class Branch {
 
     private LocalTime closingTime;
 
-//    private Boolean isOpen;
-
     private int numberOfEmployees;
+
+    @Transient
+    public boolean getIsOpen() {
+        LocalTime now = LocalTime.now();
+        return !now.isBefore(openingTime) && !now.isAfter(closingTime);
+    }
 
 //    public Boolean isOpen() {
 //        LocalDate today = LocalDate.now();

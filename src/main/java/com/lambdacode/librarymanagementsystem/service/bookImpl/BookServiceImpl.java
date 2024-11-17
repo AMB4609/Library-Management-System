@@ -55,7 +55,6 @@ public class BookServiceImpl implements BookService {
         books.setBookName(bookDTO.getBookName());
         books.setBooksAvailable(bookDTO.getBooksAvailable());
         books.setISBN(bookDTO.getISBN());
-        books.setStatus(bookDTO.getStatus());
         books.setReleaseDate(bookDTO.getReleaseDate());
 
         bookRepository.save(books);
@@ -74,9 +73,6 @@ public class BookServiceImpl implements BookService {
           //  Books updatebooks = new Books();
 
             books.setBooksAvailable(updatebookDTO.getBooksAvailable());
-            if(books.getBooksAvailable() > 1){
-                books.setStatus(Boolean.FALSE);
-            }
             bookRepository.save(books);
             return ResponseEntity.ok().build();
         }

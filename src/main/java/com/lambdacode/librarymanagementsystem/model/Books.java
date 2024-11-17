@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,9 +20,13 @@ public class Books {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
 
-    @ManyToMany
-    @JoinTable(name = "branch_id")
-    private List<Branch> branch;
+//    @ManyToMany(cascade = { CascadeType.ALL })
+//    @JoinTable(
+//            name = "book_branch",
+//            joinColumns = { @JoinColumn(name = "book_id") },
+//            inverseJoinColumns = { @JoinColumn(name = "branch_id") }
+//    )
+//    private List<Branch> branches = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "author_id")
@@ -42,9 +48,18 @@ public class Books {
 
     private Long booksAvailable;
 
-    private Boolean status;
 
     private LocalDate releaseDate;
+
+    @Transient
+    public boolean getIsAvailable() {
+        if (booksAvailable == null || booksAvailable == 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
 }
 

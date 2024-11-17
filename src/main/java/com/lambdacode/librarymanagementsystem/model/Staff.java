@@ -1,6 +1,7 @@
 package com.lambdacode.librarymanagementsystem.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,7 @@ public class Staff {
     @Column(name = "staff_name")
     private String name;
     @Column(name = "staff_password")
+    @JsonIgnore
     private String password;
     @Column(name = "staff_phone")
     private Long    phone;
