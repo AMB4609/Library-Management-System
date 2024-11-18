@@ -18,7 +18,7 @@ public class Loan {
 
     @ManyToOne
     @JoinColumn(name = "booksId")
-    private Books books;
+    private Book books;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

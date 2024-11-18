@@ -25,19 +25,24 @@ public class RegisterServiceImpl implements RegisterService {
 private StaffRepository staffRepository;
     @Override
     public  User registerUser(RegisterDTO registerDTO) throws Exception {
-        User user = new User();
-        user.setId(registerDTO.getId());
-        user.setAddress(registerDTO.getAddress());
-        user.setName(registerDTO.getName());
-        user.setPassword(encoder.encode(registerDTO.getPassword()));
-        user.setEmail(registerDTO.getEmail());
-        user.setPhone(registerDTO.getPhone());
-        User existingUser = userRepository.findByEmail(registerDTO.getEmail());
-        Staff existingStaff = staffRepository.findByEmail(registerDTO.getEmail());
-        if (existingUser != null || existingStaff != null) {
-            throw new Exception("Email already in use");
+        try{
+            User user = new User();
+            user.setId(registerDTO.getId());
+            user.setAddress(registerDTO.getAddress());
+            user.setName(registerDTO.getName());
+            user.setPassword(encoder.encode(registerDTO.getPassword()));
+            user.setEmail(registerDTO.getEmail());
+            user.setPhone(registerDTO.getPhone());
+            User existingUser = userRepository.findByEmail(registerDTO.getEmail());
+            Staff existingStaff = staffRepository.findByEmail(registerDTO.getEmail());
+            if (existingUser != null || existingStaff != null) {
+                throw new Exception("Email already in use");
+            }
+            return userRepository.save(user);
+        }catch(Exception e){
+            throw new Exception("Error registering user");
         }
-        return userRepository.save(user);
+
     }
 
     @Override

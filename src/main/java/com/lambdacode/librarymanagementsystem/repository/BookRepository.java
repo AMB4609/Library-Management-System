@@ -1,10 +1,10 @@
 package com.lambdacode.librarymanagementsystem.repository;
 
-import com.lambdacode.librarymanagementsystem.model.Books;
+import com.lambdacode.librarymanagementsystem.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BookRepository extends JpaRepository<Books, Long> {
+public interface BookRepository extends JpaRepository<Book, Long> {
 
 }

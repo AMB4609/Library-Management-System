@@ -12,20 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
     @Override
     public ResponseEntity<User> updateUser(UpdateUserDetailsDTO updateUserDetailsDTO) {
+        User user = userRepository.findById(updateUserDetailsDTO.getUserId())
+                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + updateUserDetailsDTO.getUserId()));
 
-        Optional<User> UserDetails = userRepository.findById(updateUserDetailsDTO.getUserId());
-        User user = UserDetails.get();
-        if (!UserDetails.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
         user.setAddress(updateUserDetailsDTO.getUserAddress());
         user.setName(updateUserDetailsDTO.getUserName());
         user.setEmail(updateUserDetailsDTO.getUserEmail());
@@ -35,14 +33,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object deleteUser(DeleteUserDTO deleteUserDTO) {
-        Optional<User> UserDetails = userRepository.findById(deleteUserDTO.getUserId());
-        User user = UserDetails.get();
-        if (!UserDetails.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<?> deleteUser(DeleteUserDTO deleteUserDTO) {
+        User user = userRepository.findById(deleteUserDTO.getUserId())
+                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + deleteUserDTO.getUserId()));
+
         userRepository.delete(user);
-        return ResponseEntity.ok();
+        return ResponseEntity.ok().build();
     }
 
     @Override
@@ -52,12 +48,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<User> getUserById(UserDTO userDTO) {
-        Optional<User> UserDetails = userRepository.findById(userDTO.getUserId());
-        User user = UserDetails.get();
-        if (UserDetails.isPresent()) {
-            return ResponseEntity.ok(user);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        User user = userRepository.findById(userDTO.getUserId())
+                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userDTO.getUserId()));
+
+        return ResponseEntity.ok(user);
     }
 
     @Override

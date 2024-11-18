@@ -21,40 +21,26 @@ public class BranchController {
     @PostMapping("/addBranch")
 //    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Branch> addBranch(@RequestBody BranchDTO branchDTO) {
-        try{
+
             Branch branch = branchService.addBranch(branchDTO);
 
             branch.getIsOpen();
             return ResponseEntity.ok(branch);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
     }
 @DeleteMapping("/deleteBranch")
 public ResponseEntity<Branch> deleteBranch(@RequestBody BranchDTO branchDTO) {
-        try{
             Branch branch = branchService.deleteBranch(branchDTO);
             return ResponseEntity.ok(branch);
-        }catch(Exception e){
-            return ResponseEntity.badRequest().build();
-    }
 }
 @GetMapping("/getAllBranches")
         public ResponseEntity<List<BranchDTO>> getAllBranches() {
-        try{
             return ResponseEntity.ok(branchService.getAllBranches());
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
     }
     @GetMapping("/getBranchById")
     public ResponseEntity<BranchDTO> getBranchById(@RequestBody BranchDTO branchDTO) {
-        try{
+
             BranchDTO getbranch = branchService.getBranchById(branchDTO);
         return ResponseEntity.ok(getbranch);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
     }
 }
 

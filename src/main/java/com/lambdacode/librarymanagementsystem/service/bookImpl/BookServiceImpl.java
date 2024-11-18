@@ -2,55 +2,44 @@ package com.lambdacode.librarymanagementsystem.service.bookImpl;
 
 import com.lambdacode.librarymanagementsystem.dto.BookDTO;
 import com.lambdacode.librarymanagementsystem.dto.UpdateBookDTO;
+import com.lambdacode.librarymanagementsystem.exception.NotFoundException;
 import com.lambdacode.librarymanagementsystem.model.Author;
-import com.lambdacode.librarymanagementsystem.model.Books;
+import com.lambdacode.librarymanagementsystem.model.Book;
 import com.lambdacode.librarymanagementsystem.model.Category;
-import com.lambdacode.librarymanagementsystem.model.Publisher;
 import com.lambdacode.librarymanagementsystem.repository.AuthorRepository;
 import com.lambdacode.librarymanagementsystem.repository.BookRepository;
 import com.lambdacode.librarymanagementsystem.repository.CategoryRepository;
-import com.lambdacode.librarymanagementsystem.repository.PublisherRepository;
 import com.lambdacode.librarymanagementsystem.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-
 
 @Service
 public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
-
     @Autowired
     private AuthorRepository authorRepository;
-
-    @Autowired
-    private PublisherRepository publisherRepository;
-
     @Autowired
     private CategoryRepository categoryRepository;
+
     @Override
-    public void addBook(BookDTO bookDTO) throws NoSuchElementException, IllegalArgumentException {
+    public void addBook(BookDTO bookDTO) throws IllegalArgumentException, NotFoundException {
         if (bookDTO.getAuthorId() == null || bookDTO.getPublisherName() == null || bookDTO.getCategoryId() == null) {
-            throw new IllegalArgumentException("Author ID, Publisher ID, and Category ID must not be null.");
+            throw new IllegalArgumentException("Author ID, Publisher Name, and Category ID must not be null.");
         }
         Author author = authorRepository.findById(bookDTO.getAuthorId())
-                .orElseThrow(() -> new NoSuchElementException("Author not found for ID: " + bookDTO.getAuthorId()));
-        Publisher publisher = publisherRepository.findByPublisherName(bookDTO.getPublisherName())
-                .orElseThrow(() -> new NoSuchElementException("Publisher not found for name: " + bookDTO.getPublisherName()));
+                .orElseThrow(() -> new NotFoundException("Author not found for ID: " + bookDTO.getAuthorId()));
         Category category = categoryRepository.findById(bookDTO.getCategoryId())
-                .orElseThrow(() -> new NoSuchElementException("Category not found for ID: " + bookDTO.getCategoryId()));
+                .orElseThrow(() -> new NotFoundException("Category not found for ID: " + bookDTO.getCategoryId()));
 
-        Books books = new Books();
-        books.setBookId(bookDTO.getBookId());
+        Book books = new Book();
         books.setAuthor(author);
-        books.setPublisher(publisher);
+        books.setPublisher(bookDTO.getPublisherName());
         books.setCategory(category);
         books.setBookName(bookDTO.getBookName());
         books.setBooksAvailable(bookDTO.getBooksAvailable());
@@ -61,46 +50,31 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseEntity<Void> updateBookStatus(UpdateBookDTO updatebookDTO) {
-
-        Optional<Books> booksOptional = bookRepository.findById(updatebookDTO.getBookId());
-        Books books = booksOptional.get();
-        if(booksOptional.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        }
-       // if(books.getBookId().equals(updatebookDTO.getBookId())){
-          //  Books updatebooks = new Books();
-
-            books.setBooksAvailable(updatebookDTO.getBooksAvailable());
-            bookRepository.save(books);
-            return ResponseEntity.ok().build();
-        }
-
-    @Override
-    public void deleteBookById(BookDTO bookDTO) {
-        Optional<Books> booksOptional = bookRepository.findById(bookDTO.getBookId());
-        Books books = booksOptional.get();
-        if(booksOptional.isEmpty()){
-            throw new NoSuchElementException("Book not found for ID: " + bookDTO.getBookId());
-        }
-        bookRepository.delete(books);
+    public ResponseEntity<Object> updateBookStatus(UpdateBookDTO updateBookDTO) {
+        return bookRepository.findById(updateBookDTO.getBookId())
+                .map(book -> {
+                    book.setBooksAvailable(updateBookDTO.getBooksAvailable());
+                    bookRepository.save(book);
+                    return ResponseEntity.ok().build();
+                })
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @Override
-    public List getAllBooks() {
+    public void deleteBookById(BookDTO bookDTO) throws NoSuchElementException {
+        Book book = bookRepository.findById(bookDTO.getBookId())
+                .orElseThrow(() -> new NotFoundException("Book not found for ID: " + bookDTO.getBookId()));
+        bookRepository.delete(book);
+    }
+
+    @Override
+    public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
     @Override
-    public Books getBookById(BookDTO bookDTO) {
-        Optional<Books> booksOptional = bookRepository.findById(bookDTO.getBookId());
-        Books books = booksOptional.get();
-        if(!booksOptional.isPresent()){
-            throw new NoSuchElementException("Book not found for ID: " + bookDTO.getBookId());
-        }
-        return books;
+    public Book getBookById(BookDTO bookDTO) throws NoSuchElementException {
+        return bookRepository.findById(bookDTO.getBookId())
+                .orElseThrow(() -> new NotFoundException("Book not found for ID: " + bookDTO.getBookId()));
     }
-
 }
-

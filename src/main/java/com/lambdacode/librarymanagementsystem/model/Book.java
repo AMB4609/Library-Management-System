@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @NoArgsConstructor
@@ -15,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity(name = "Books")
-public class Books {
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
@@ -32,9 +29,7 @@ public class Books {
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @ManyToOne
-    @JoinColumn(name = "publisher_id")
-    private Publisher publisher;
+    private String publisher;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -50,6 +45,8 @@ public class Books {
 
 
     private LocalDate releaseDate;
+
+    private Double averageRating;
 
     @Transient
     public boolean getIsAvailable() {

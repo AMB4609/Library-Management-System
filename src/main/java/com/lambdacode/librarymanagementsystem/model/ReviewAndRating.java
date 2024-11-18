@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class ReviewAndRating {
     @Id
     @GeneratedValue
-    private long reviewAndRatingId;
+    private Long reviewAndRatingId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -22,9 +22,9 @@ public class ReviewAndRating {
 
     @ManyToOne
     @JoinColumn(name = "book_id")
-    private Books books;
+    private Book books;
 
-    private String rating;
+    private Double rating;
 
     private String review;
 

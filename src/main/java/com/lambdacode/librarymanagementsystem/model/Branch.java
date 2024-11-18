@@ -20,7 +20,7 @@ public class Branch {
     private Long branchId;
 
 //    @ManyToMany(mappedBy = "branches")
-//    private List<Books> books = new ArrayList<>();
+//    private List<Book> books = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name ="staff_id")

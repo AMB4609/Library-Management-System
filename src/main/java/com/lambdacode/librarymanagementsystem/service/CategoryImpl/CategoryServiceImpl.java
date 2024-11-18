@@ -14,6 +14,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void addCategory(Category category) {
+        if (category == null || category.getCategoryName() == null || category.getCategoryName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Category name must not be null or empty.");
+        }
         categoryRepository.save(category);
     }
 }

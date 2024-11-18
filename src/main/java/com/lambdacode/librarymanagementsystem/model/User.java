@@ -1,11 +1,11 @@
 package com.lambdacode.librarymanagementsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,5 +33,7 @@ public class User {
 
     @Column(name = "user_address")
     private String address;
+
+    private Integer loanCount;
 
 }

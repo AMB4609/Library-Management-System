@@ -1,14 +1,8 @@
 package com.lambdacode.librarymanagementsystem.dto;
 
-import com.lambdacode.librarymanagementsystem.model.Books;
-import com.lambdacode.librarymanagementsystem.model.Staff;
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalTime;
-import java.util.List;
 
 @Data
 @Getter

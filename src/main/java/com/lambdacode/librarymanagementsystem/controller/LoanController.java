@@ -27,30 +27,20 @@ public class LoanController {
     }
     @GetMapping("/getAllLoans")
     public ResponseEntity<List<LoanDTO>> getAllLoans() {
-     try{
          return ResponseEntity.ok(loanService.getAllLoans());
-     }catch (Exception e){
-         return ResponseEntity.badRequest().build();
-     }
     }
     @DeleteMapping("/deleteLoan")
     public ResponseEntity<String> deleteLoan(@RequestBody LoanDTO loanDTO) {
-        try{
             loanService.deleteLoan(loanDTO);
             return ResponseEntity.ok("DELETED" + loanDTO);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
+
     }
     @PostMapping("/returnLoan")
     public ResponseEntity<ReturnDTO> returnLoan(@RequestBody ReturnDTO returnDTO) {
-        try{
+
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String userEmail = authentication.getName();
             ReturnDTO loanz = loanService.returnBook(userEmail, returnDTO);
             return ResponseEntity.ok(loanz);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
     }
 }

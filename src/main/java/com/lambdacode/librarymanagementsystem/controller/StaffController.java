@@ -19,49 +19,29 @@ public class StaffController {
 
     @PutMapping("/updateStaff")
     public ResponseEntity<Staff> updateStaff(@RequestBody StaffDTO staffDTO) {
-        try {
             return staffService.updateStaff(staffDTO);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
     }
 
     @DeleteMapping("/deleteStaff")
     public ResponseEntity<Void> deleteStaff(@RequestBody StaffDTO staffDTO) {
-        try {
             staffService.deleteStaff(staffDTO);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
     }
 
     @DeleteMapping("/deleteAllStaff")
     public ResponseEntity<Void> deleteAllStaff() {
-        try {
             staffService.deleteAllStaff();
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
     }
 
     @GetMapping("/getStaffById")
     public ResponseEntity<Staff> getStaffById(@RequestBody StaffDTO staffDTO) {
-        try {
             return staffService.getStaffById(staffDTO);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
     }
 
     @GetMapping("/getAllStaff")
     public ResponseEntity<List<Staff>> getAllStaff() {
-        try {
             return staffService.getAllStaff();
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
     }
 }
 
