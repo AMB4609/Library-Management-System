@@ -1,5 +1,6 @@
 package com.lambdacode.librarymanagementsystem.dto;
 
+import com.lambdacode.librarymanagementsystem.model.ReviewAndRating;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class BookDTO {
     private List<Long> branchIds;
     private String publisherName;
     private Long categoryId;
+    private List<ReviewAndRating> reviews;
     private String bookName;
     private String ISBN;
     private Long booksAvailable;

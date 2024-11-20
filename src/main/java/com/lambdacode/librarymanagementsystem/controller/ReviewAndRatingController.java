@@ -5,10 +5,11 @@ import com.lambdacode.librarymanagementsystem.model.ReviewAndRating;
 import com.lambdacode.librarymanagementsystem.service.ReviewAndRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/reviewAndRating")
@@ -18,10 +19,20 @@ public class ReviewAndRatingController {
 
     @PostMapping("/addReviewAndRating")
     public ResponseEntity<ReviewAndRating> addReviewAndRating(@RequestBody ReviewDTO reviewDTO) {
-            return ResponseEntity.ok(reviewAndRatingService.addReview(reviewDTO)) ;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+            return ResponseEntity.ok(reviewAndRatingService.addReview(userEmail ,reviewDTO)) ;
     }
     @PostMapping("/changeReviewAndRating")
     public ResponseEntity<ReviewAndRating> changeReviewAndRating(@RequestBody ReviewDTO reviewDTO) {
-        return ResponseEntity.ok(reviewAndRatingService.changeReview(reviewDTO));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        return ResponseEntity.ok(reviewAndRatingService.changeReview(userEmail,reviewDTO));
+    }
+    @PostMapping("/addLikeToReview")
+    public ResponseEntity<ReviewAndRating> addLikeToReview(@RequestBody ReviewDTO reviewDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        return ResponseEntity.ok(reviewAndRatingService.addLikeToReview(userEmail,reviewDTO));
     }
 }

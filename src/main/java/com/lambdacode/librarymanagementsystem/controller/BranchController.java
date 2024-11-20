@@ -19,7 +19,7 @@ public class BranchController {
     private BranchService branchService;
 
     @PostMapping("/addBranch")
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Branch> addBranch(@RequestBody BranchDTO branchDTO) {
 
             Branch branch = branchService.addBranch(branchDTO);
@@ -28,6 +28,7 @@ public class BranchController {
             return ResponseEntity.ok(branch);
     }
 @DeleteMapping("/deleteBranch")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public ResponseEntity<Branch> deleteBranch(@RequestBody BranchDTO branchDTO) {
             Branch branch = branchService.deleteBranch(branchDTO);
             return ResponseEntity.ok(branch);

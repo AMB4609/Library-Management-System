@@ -24,7 +24,7 @@ public class LoanMapper {
         loanDTO.setDueDate(nowDate.plusDays(30));
         return loanDTO;
     }
-    public List<LoanDTO> toBranchDTOs(List<Loan> loans) {
+    public List<LoanDTO> toLoanDTOs(List<Loan> loans) {
         return loans.stream()
                 .map(this::toLoanDTO)
                 .collect(Collectors.toList());

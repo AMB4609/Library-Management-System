@@ -14,7 +14,9 @@ public interface BookService {
 
     void deleteBookById(BookDTO bookDTO);
 
-    List getAllBooks();
+    List<Book> getAllBooksWithReviews();
 
     Book getBookById(BookDTO bookDTO);
+
+    UpdateBookDTO updateBookDetails(UpdateBookDTO updatebookDTO);
 }

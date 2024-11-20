@@ -3,8 +3,12 @@ package com.lambdacode.librarymanagementsystem.service;
 import com.lambdacode.librarymanagementsystem.dto.ReviewDTO;
 import com.lambdacode.librarymanagementsystem.model.ReviewAndRating;
 
-public interface ReviewAndRatingService {
-     ReviewAndRating addReview(ReviewDTO reviewDTO);
+import java.util.List;
 
-     ReviewAndRating changeReview(ReviewDTO reviewDTO);
+public interface ReviewAndRatingService {
+     ReviewAndRating addReview(String userEmail,ReviewDTO reviewDTO);
+
+     ReviewAndRating changeReview(String userEmail,ReviewDTO reviewDTO);
+
+    ReviewAndRating addLikeToReview(String userEmail,ReviewDTO reviewDTO);
 }

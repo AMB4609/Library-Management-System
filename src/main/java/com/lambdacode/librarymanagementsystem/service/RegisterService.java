@@ -5,7 +5,7 @@ import com.lambdacode.librarymanagementsystem.model.Staff;
 import com.lambdacode.librarymanagementsystem.model.User;
 
 public interface RegisterService {
-    User registerUser(RegisterDTO registerDTO) throws Exception;
+    User registerUser(RegisterDTO registerDTO) ;
 
-    Staff registerStaff(RegisterDTO registerDTO) throws Exception;
+    Staff registerStaff(RegisterDTO registerDTO);
 }

@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,13 +32,10 @@ public class LoanServiceImpl implements LoanService {
     private LoanMapper loanMapper;
 
     @Override
-    public LoanDTO loanBook(String userEmail, LoanDTO loanDTO) {
-        User user = userRepository.findByEmail(userEmail);
-        if (user == null) {
-            throw new NotFoundException("User not found with email: " + userEmail);
-        }
+    public LoanDTO loanBook(LoanDTO loanDTO) {
+        User user = userRepository.findById(loanDTO.getUserId()) .orElseThrow(() -> new NotFoundException("User Not Found"));
         if (user.getLoanCount() > 5){
-            throw new ExceededLoanCountException("You have reached your loan limit, to get extra book you must return the book you have taken");
+            throw new ExceededLoanCountException("Have reached loan limit, to get extra book  must return loaned book");
         }
         Book book = bookRepository.findById(loanDTO.getBookId())
                 .orElseThrow(() -> new NotFoundException("Book not found with ID: " + loanDTO.getBookId()));
@@ -63,15 +59,15 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public List<LoanDTO> getAllLoans() {
-        return loanMapper.toBranchDTOs(loanRepository.findAll());
+        return loanMapper.toLoanDTOs(loanRepository.findAll());
     }
 
     @Override
-    public ReturnDTO returnBook(String userEmail, ReturnDTO returnDTO) {
+    public ReturnDTO returnBook(ReturnDTO returnDTO) {
         Loan loan = loanRepository.findById(Math.toIntExact(returnDTO.getLoanId()))
-                .orElseThrow(() -> new NoSuchElementException("Loan not found for ID: " + returnDTO.getLoanId()));
+                .orElseThrow(() -> new NotFoundException("Loan not found for ID: " + returnDTO.getLoanId()));
         Book book = bookRepository.findById(loan.getBooks().getBookId())
-                .orElseThrow(() -> new NoSuchElementException("Book not found for ID: " + loan.getBooks().getBookId()));
+                .orElseThrow(() -> new NotFoundException("Book not found for ID: " + loan.getBooks().getBookId()));
 
         if (!loan.getReturnDate().equals(returnDTO.getReturnDate())) {
             book.setBooksAvailable(book.getBooksAvailable() + 1);
@@ -79,7 +75,6 @@ public class LoanServiceImpl implements LoanService {
 
             bookRepository.save(book);
             loanRepository.save(loan);
-            loanRepository.delete(loan);
 
             returnDTO.setReturnDate(LocalDate.now());
             returnDTO.setBookName(book.getBookName());
@@ -98,5 +93,31 @@ public class LoanServiceImpl implements LoanService {
                 .orElseThrow(() -> new NoSuchElementException("Loan not found for ID: " + loanDTO.getLoanId()));
         loanRepository.delete(loan);
         return loanDTO;
+    }
+
+    @Override
+    public Object getAllLoanByUserId(String userEmail, LoanDTO loanDTO) {
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new NotFoundException("Please login to view your loans, If not registered please contact nearest Library!");
+        }
+        if (user.getLoanCount() > 0){
+            return loanMapper.toLoanDTOs(loanRepository.findAll());
+        }else {
+            return "There is no loan to show!";
+        }
+    }
+
+    @Override
+    public Object getLoanByUserId(String userEmail, LoanDTO loanDTO) {
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new NotFoundException("Please login to view your loans, If not registered please contact nearest Library!");
+        }
+        if (loanRepository.existsById(Math.toIntExact(loanDTO.getLoanId()))) {
+            return loanRepository.findById(Math.toIntExact(loanDTO.getLoanId()));
+        }else {
+            return "There is no loan to show!";
+        }
     }
 }

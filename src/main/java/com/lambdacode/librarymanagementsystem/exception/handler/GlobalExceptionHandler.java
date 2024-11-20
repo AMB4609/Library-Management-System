@@ -1,9 +1,6 @@
 package com.lambdacode.librarymanagementsystem.exception.handler;
 
-import com.lambdacode.librarymanagementsystem.exception.ExceededLoanCountException;
-import com.lambdacode.librarymanagementsystem.exception.NoBookForLoanException;
-import com.lambdacode.librarymanagementsystem.exception.NoRatingException;
-import com.lambdacode.librarymanagementsystem.exception.NotFoundException;
+import com.lambdacode.librarymanagementsystem.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -37,5 +34,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ExceededLoanCountException.class)
     public ResponseEntity<String> handleExceededLoanCountException(ExceededLoanCountException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.LOCKED);
+    }
+    @ExceptionHandler(RatingOutOfRangeException.class)
+    public ResponseEntity<String> handleRatingOutOfRange(RatingOutOfRangeException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(NotYourReviewException.class)
+    public ResponseEntity<String> handleNotYourReviewException(NotYourReviewException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<String> handleStaffAlreadyExistsException(AlreadyExistsException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 public class StaffDTO {
     private Long staffId;
     private String staffName;
-    private Branch branch;
+    private Long branchId;
     private String staffPassword;
     private String staffEmail;
     private Long staffPhone;

@@ -7,6 +7,7 @@ import com.lambdacode.librarymanagementsystem.model.Loan;
 import com.lambdacode.librarymanagementsystem.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -19,28 +20,41 @@ public class LoanController {
     @Autowired
     private LoanService loanService;
     @PostMapping("/getLoan")
+    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public LoanDTO getLoan(@RequestBody LoanDTO loanDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName(); // Assuming username is the user email
-        LoanDTO loanz = loanService.loanBook(userEmail, loanDTO);
+        LoanDTO loanz = loanService.loanBook(loanDTO);
         return loanz;
     }
     @GetMapping("/getAllLoans")
+    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<List<LoanDTO>> getAllLoans() {
          return ResponseEntity.ok(loanService.getAllLoans());
     }
     @DeleteMapping("/deleteLoan")
+    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<String> deleteLoan(@RequestBody LoanDTO loanDTO) {
             loanService.deleteLoan(loanDTO);
             return ResponseEntity.ok("DELETED" + loanDTO);
 
     }
     @PostMapping("/returnLoan")
+    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<ReturnDTO> returnLoan(@RequestBody ReturnDTO returnDTO) {
-
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String userEmail = authentication.getName();
-            ReturnDTO loanz = loanService.returnBook(userEmail, returnDTO);
+            ReturnDTO loanz = loanService.returnBook(returnDTO);
             return ResponseEntity.ok(loanz);
+    }
+    @GetMapping("/getAllLoanByUserId")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    public ResponseEntity<Object> getAllLoanByUserId(@RequestBody LoanDTO loanDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        return ResponseEntity.ok().body(loanService.getAllLoanByUserId(userEmail,loanDTO));
+    }
+    @GetMapping("/getLoanByUserId")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    public ResponseEntity<Object> getLoanByUserId(@RequestBody LoanDTO loanDTO){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        return ResponseEntity.ok().body(loanService.getLoanByUserId(userEmail,loanDTO));
     }
 }

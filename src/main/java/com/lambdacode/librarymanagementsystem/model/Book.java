@@ -1,9 +1,11 @@
 package com.lambdacode.librarymanagementsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -11,7 +13,7 @@ import java.time.LocalDate;
 @Data
 @Getter
 @Setter
-@Entity(name = "Books")
+@Entity(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,14 +39,23 @@ public class Book {
 
     private String bookName;
 
-    private String bookPhoto;
+    private String bookDescription;
 
     private String iSBN;
 
     private Long booksAvailable;
 
-
     private LocalDate releaseDate;
+
+//    @OneToMany
+//    @JoinColumn(name = "reviewAndRatingId")
+//    @JsonManagedReference
+//    private List<ReviewAndRating> reviews;
+    @OneToMany(mappedBy = "book",fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<ReviewAndRating> reviews;
+//
+
 
     private Double averageRating;
 

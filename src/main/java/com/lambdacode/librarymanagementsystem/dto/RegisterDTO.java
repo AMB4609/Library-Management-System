@@ -15,6 +15,6 @@ public class RegisterDTO {
     private Long phone;
     private String email;
     private String address;
-    private Branch branch;
+    private Long branchId;
     private String position;
 }

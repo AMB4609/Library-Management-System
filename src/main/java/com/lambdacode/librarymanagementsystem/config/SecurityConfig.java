@@ -36,13 +36,15 @@ public class SecurityConfig {
         return http
                 .csrf(customizer -> customizer.disable()) // disabling csrf
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("api/register/registerUser")
-//                        .requestMatchers("api/login/loginUser")
-                        .permitAll()
-                        .requestMatchers("api/register/registerStaff")
-                        .permitAll()
-                        .requestMatchers("api/login/loginUser")
-//                        .requestMatchers("api/register/**")
+//                        .requestMatchers("api/book/getAllBooks")
+//                        .permitAll()
+//                        .requestMatchers("api/book/getBookById")
+//                        .permitAll()
+//                        .requestMatchers("api/register/registerUser")
+//                        .permitAll()
+//                        .requestMatchers("api/register/registerStaff")
+//                        .permitAll()
+                        .requestMatchers("api/login/loginUser", "api/book/getBookById", "api/book/getAllBooks")
                         .permitAll()
                          // this permit all the requestMatcher's request which means these pages only get access without spring security Interference
                         .anyRequest().authenticated())//no one is able to access the page without authentication except requestMatchers pages

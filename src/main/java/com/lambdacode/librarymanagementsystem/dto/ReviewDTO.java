@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 public class ReviewDTO {
-    private long reviewAndRatingId;
+    private Long reviewAndRatingId;
     private Long userId;
     private Long bookId;
     private Double rating;

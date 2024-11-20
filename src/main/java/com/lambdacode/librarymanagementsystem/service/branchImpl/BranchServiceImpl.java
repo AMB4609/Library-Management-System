@@ -25,8 +25,8 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public Branch addBranch(BranchDTO branchDTO) {
-        Staff staff = staffRepository.findById(branchDTO.getStaffId())
-                .orElseThrow(() -> new NoSuchElementException("Staff not found for ID: " + branchDTO.getStaffId()));
+//        Staff staff = staffRepository.findById(branchDTO.getStaffId())
+//                .orElseThrow(() -> new NoSuchElementException("Staff not found for ID: " + branchDTO.getStaffId()));
         Branch branch = new Branch();
         branch.setBranchName(branchDTO.getBranchName());
         branch.setBranchLocation(branchDTO.getBranchLocation());
@@ -34,7 +34,7 @@ public class BranchServiceImpl implements BranchService {
         branch.setOpeningTime(LocalTime.parse(branchDTO.getOpeningTime()));
         branch.setClosingTime(LocalTime.parse(branchDTO.getClosingTime()));
         branch.setContact(branchDTO.getContact());
-        branch.setStaff(staff);
+//        branch.setStaff(staff);
         branchRepository.save(branch);
         return branch;
     }
