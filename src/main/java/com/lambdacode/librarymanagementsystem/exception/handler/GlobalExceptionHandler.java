@@ -47,4 +47,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleStaffAlreadyExistsException(AlreadyExistsException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(ExceededPaymentException.class)
+    public ResponseEntity<String> handleExceededPaymentException(ExceededPaymentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(PayFirstException.class)
+    public ResponseEntity<String> handlePayFirstException(PayFirstException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
