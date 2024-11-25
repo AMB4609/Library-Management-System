@@ -38,6 +38,7 @@ public ResponseEntity<Branch> deleteBranch(@RequestBody BranchDTO branchDTO) {
             return ResponseEntity.ok(branchService.getAllBranches());
     }
     @GetMapping("/getBranchById")
+    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<BranchDTO> getBranchById(@RequestBody BranchDTO branchDTO) {
 
             BranchDTO getbranch = branchService.getBranchById(branchDTO);

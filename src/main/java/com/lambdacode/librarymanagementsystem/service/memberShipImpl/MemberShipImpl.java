@@ -37,6 +37,9 @@ public class MemberShipImpl implements MemberShipService {
                 .ifPresent(m -> {
                     throw new AlreadyExistsException("Membership of the user already exists");
                 });
+        if(memberShipDTO.getCostPerMonth()*memberShipDTO.getMonthsOfMembership() < memberShipDTO.getPayedAmount()){
+            throw new ExceededPaymentException("You have exceeded the amount you need to pay");
+        }
         MemberShip membership = new MemberShip();
         membership.setMonthsOfMembership(memberShipDTO.getMonthsOfMembership());
         membership.setMemberShipDate(LocalDate.now());
@@ -74,6 +77,9 @@ public class MemberShipImpl implements MemberShipService {
         if (membership.getPayableAmount()> 0){
             throw new PayFirstException("First pay your payable amount to renew membership");
         }
+        if(memberShipDTO.getCostPerMonth()*memberShipDTO.getMonthsOfMembership() < memberShipDTO.getPayedAmount()){
+            throw new ExceededPaymentException("You have exceeded the amount you need to pay");
+        }
         membership.setMonthsOfMembership(memberShipDTO.getMonthsOfMembership());
         membership.setMemberShipDate(LocalDate.now());
         membership.setMemberShipExpiry(LocalDate.now().plusMonths(memberShipDTO.getMonthsOfMembership()));
@@ -93,6 +99,12 @@ public class MemberShipImpl implements MemberShipService {
     @Override
     public List<MemberShip> getAllMembership() {
         return memberShipRepository.findAll();
+    }
+
+    @Override
+    public MemberShip getMemberShipByUserId(String userEmail) {
+        MemberShip membership = memberShipRepository.findByUserEmail(userEmail);
+        return membership;
     }
 
     @Override

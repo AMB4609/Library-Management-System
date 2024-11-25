@@ -17,4 +17,6 @@ public interface MemberShipService {
     MemberShip getMemberShip(MemberShipDTO memberShipDTO);
 
     List<MemberShip> getAllMembership();
+
+    MemberShip getMemberShipByUserId(String userEmail);
 }

@@ -8,6 +8,7 @@ import com.lambdacode.librarymanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,6 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @PutMapping("/updateUser")
+    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<User> updateUser(@RequestBody UpdateUserDetailsDTO UpdateUserDetailsDTO) {
         try{
 //            User user = userService.updateUser(UpdateUserDetailsDTO);
@@ -28,6 +30,7 @@ public class UserController {
         }
     }
 @DeleteMapping("/deleteUser")
+@PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<Void> deleteUser(@RequestBody DeleteUserDTO deleteUserDTO) {
         try {
             userService.deleteUser(deleteUserDTO);
@@ -38,6 +41,7 @@ public class UserController {
 
     }
     @DeleteMapping("/deleteAllUsers")
+    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<Void> deleteAllUsers() {
         try{
             userService.deleteAllUsers();
@@ -47,6 +51,7 @@ public class UserController {
         }
     }
     @GetMapping("/getUserById")
+    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<User> getUserById(@RequestBody UserDTO userDTO) {
         try{
 
@@ -56,6 +61,7 @@ public class UserController {
         }
     }
     @GetMapping("/getAllUsers")
+    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<List<User>> getAllUsers() {
         try{
             return userService.getAllUsers();

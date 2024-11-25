@@ -26,8 +26,8 @@ public class AuthorController {
     @GetMapping("/getAuthorById")
     @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<Author> getAuthorById(@RequestBody Author author) {
-        authorService.getAuthorById(author);
-        return ResponseEntity.ok().body(author);
+
+        return ResponseEntity.ok().body(authorService.getAuthorById(author));
     }
     @GetMapping("/getAllAuthors")
     @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")

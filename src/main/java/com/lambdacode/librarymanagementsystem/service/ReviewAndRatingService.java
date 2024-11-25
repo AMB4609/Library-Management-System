@@ -10,5 +10,7 @@ public interface ReviewAndRatingService {
 
      ReviewAndRating changeReview(String userEmail,ReviewDTO reviewDTO);
 
-    ReviewAndRating addLikeToReview(String userEmail,ReviewDTO reviewDTO);
+    ReviewAndRating toggleLikeToReview(String userEmail,ReviewDTO reviewDTO);
+
+    ReviewAndRating toggleDislikeToReview(String userEmail, ReviewDTO reviewDTO);
 }

@@ -8,17 +8,25 @@ import com.lambdacode.librarymanagementsystem.exception.NotFoundException;
 import com.lambdacode.librarymanagementsystem.mapper.LoanMapper;
 import com.lambdacode.librarymanagementsystem.model.Book;
 import com.lambdacode.librarymanagementsystem.model.Loan;
+import com.lambdacode.librarymanagementsystem.model.MemberShip;
 import com.lambdacode.librarymanagementsystem.model.User;
 import com.lambdacode.librarymanagementsystem.repository.BookRepository;
 import com.lambdacode.librarymanagementsystem.repository.LoanRepository;
+import com.lambdacode.librarymanagementsystem.repository.MemberShipRepository;
 import com.lambdacode.librarymanagementsystem.repository.UserRepository;
 import com.lambdacode.librarymanagementsystem.service.LoanService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class LoanServiceImpl implements LoanService {
@@ -30,6 +38,8 @@ public class LoanServiceImpl implements LoanService {
     private BookRepository bookRepository;
     @Autowired
     private LoanMapper loanMapper;
+    @Autowired
+    private MemberShipRepository memberShipRepository;
 
     @Override
     public LoanDTO loanBook(LoanDTO loanDTO) {
@@ -118,6 +128,30 @@ public class LoanServiceImpl implements LoanService {
             return loanRepository.findById(Math.toIntExact(loanDTO.getLoanId()));
         }else {
             return "There is no loan to show!";
+        }
+    }
+
+    public void applyFine(Loan loan) {
+        MemberShip membership = memberShipRepository.findByUserId(loan.getUser().getId())
+                .orElseThrow(() ->  new NotFoundException("user id not found"));
+        if (membership != null) {
+            Long fine = 500L;  // Fixed fine rate
+            membership.setPayableAmount(membership.getPayableAmount() + fine);
+            memberShipRepository.save(membership);
+        }
+    }
+    @Scheduled(cron = "0 0 1 * * ?")  // Runs at 1 AM every day
+    @Transactional
+    public void applyFinesToOverdueLoans() {
+        List<Loan> allLoans = loanRepository.findAll();
+        List<Loan> overdueLoans = new ArrayList<>();
+        for (Loan loan : allLoans) {
+            if (loan.getDueDate().isBefore(LocalDate.now())){
+                overdueLoans.add(loan);
+            }
+        }
+        for (Loan loan : overdueLoans) {
+           applyFine(loan);
         }
     }
 }

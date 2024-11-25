@@ -21,12 +21,8 @@ public class RegisterController {
     @PostMapping("/registerUser")
     @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<User> registerUser(@RequestBody RegisterDTO registerDTO){
-        try {
             User savedUser = registerService.registerUser(registerDTO);
             return ResponseEntity.ok(savedUser);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new User(),HttpStatus.CONFLICT);
-        }
     }
     @PostMapping("/registerStaff")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

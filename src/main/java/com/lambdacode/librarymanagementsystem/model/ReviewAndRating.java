@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,9 +42,13 @@ public class ReviewAndRating {
 
     private Integer likeCount = 0;
 
-    public void addLike() {
-        this.likeCount++;
-    }
+    private Integer dislikeCount = 0;
+
+    @ManyToMany
+    private Set<User> likedUsers = new HashSet<>();
+
+    @ManyToMany
+    private Set<User> dislikedUsers = new HashSet<>();
 
     public void setRating(Double rating) {
         if (rating < 0 || rating > 5) {
@@ -51,4 +57,22 @@ public class ReviewAndRating {
         this.rating = rating;
     }
 
+    public void addLike() {
+        this.likeCount++;
+    }
+    public void decrementLike() {
+        if (this.likeCount > 0) {
+            this.likeCount--;
+        }
+    }
+
+    public void addDislike() {
+        this.dislikeCount++;
+    }
+
+    public void decrementDislike() {
+        if (this.dislikeCount > 0) {
+            this.dislikeCount--;
+        }
+}
 }

@@ -1,6 +1,7 @@
 package com.lambdacode.librarymanagementsystem.service.ReviewAndRating;
 
 import com.lambdacode.librarymanagementsystem.dto.ReviewDTO;
+import com.lambdacode.librarymanagementsystem.exception.NoBookForLoanException;
 import com.lambdacode.librarymanagementsystem.exception.NoRatingException;
 import com.lambdacode.librarymanagementsystem.exception.NotFoundException;
 import com.lambdacode.librarymanagementsystem.exception.NotYourReviewException;
@@ -43,6 +44,7 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
         reviewAndRating.setReview(reviewDTO.getReview());
         reviewAndRating.setRating(reviewDTO.getRating());
         reviewAndRating.setReviewAndRatingId(reviewDTO.getReviewAndRatingId());
+        reviewAndRating.setUser(user);
         reviewAndRating.setBook(book);
         reviewAndRating.setReviewDate(LocalDate.now());
         reviewAndRating=reviewRepository.save(reviewAndRating);
@@ -60,11 +62,16 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
         if (user != reviewAndRating.getUser()){
             throw new NotYourReviewException("this is not your review to change");
         }
-        reviewAndRating.setReview(reviewDTO.getReview());
-        reviewAndRating.setRating(reviewDTO.getRating());
-        Book book = new Book();
+        Book book = bookRepository.findById(reviewDTO.getBookId())
+                .orElseThrow(() -> new RuntimeException("Book not found for ID: " + reviewDTO.getBookId()));
+        if (!book.getIsAvailable()) {
+            throw new NoBookForLoanException("Book is not available for loan");
+        }
         book.setAverageRating(averageRating(reviewRepository.findByBook(book)));
         bookRepository.save(book);
+        reviewAndRating.setReview(reviewDTO.getReview());
+        reviewAndRating.setRating(reviewDTO.getRating());
+        reviewRepository.save(reviewAndRating);
         return reviewAndRating;
     }
     public double averageRating(List<ReviewAndRating> reviews){
@@ -75,7 +82,7 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
          return averageRating;
     }
     @Override
-    public ReviewAndRating addLikeToReview(String userEmail,ReviewDTO reviewDTO) {
+    public ReviewAndRating toggleLikeToReview(String userEmail,ReviewDTO reviewDTO) {
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {
             throw new NotFoundException("Please login to add your review, If not registered please contact nearest Library!");
@@ -83,7 +90,53 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
         Long reviewId = reviewDTO.getReviewAndRatingId(); // Ensure this method correctly retrieves the ID as a Long
         ReviewAndRating review = reviewRepository.findById(Math.toIntExact(reviewId))
                 .orElseThrow(() -> new NotFoundException("Review not found"));
-        review.addLike();
+        if (review.getLikedUsers().contains(user)) {
+            // Unlike the review
+            review.getLikedUsers().remove(user);
+            review.decrementLike(); // You need to implement this method
+        } else {
+            if(review.getDislikedUsers().contains(user)) {
+                review.getDislikedUsers().remove(user);
+                review.getLikedUsers().add(user);
+                review.addLike();
+            }else{
+                review.getDislikedUsers().add(user);
+                review.addLike();
+            }
+            // Like the review
+        }
         return reviewRepository.save(review);
     }
+
+    @Override
+    public ReviewAndRating toggleDislikeToReview(String userEmail, ReviewDTO reviewDTO) {
+        // Retrieve the user by email
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new NotFoundException("Please login to dislike/undo dislike the review. If not registered, please contact the nearest Library!");
+        }
+
+        // Retrieve the review
+        Long reviewId = reviewDTO.getReviewAndRatingId();
+        ReviewAndRating review = reviewRepository.findById(Math.toIntExact(reviewId))
+                .orElseThrow(() -> new NotFoundException("Review not found"));
+
+        // Check if the user already disliked the review
+        if (review.getDislikedUsers().contains(user)) {
+            review.getDislikedUsers().remove(user);
+            review.decrementDislike();
+        } else {
+            if (review.getLikedUsers().contains(user)) {
+                review.getLikedUsers().remove(user);
+                review.getDislikedUsers().add(user);
+                review.decrementLike();
+            }else{
+                review.getDislikedUsers().add(user);
+                review.addDislike();
+            }
+
+        }
+        return reviewRepository.save(review);
+    }
+
 }
