@@ -33,8 +33,7 @@ public class LoanController {
     @DeleteMapping("/deleteLoan")
     @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
     public ResponseEntity<String> deleteLoan(@RequestBody LoanDTO loanDTO) {
-            loanService.deleteLoan(loanDTO);
-            return ResponseEntity.ok("DELETED" + loanDTO);
+            return ResponseEntity.ok("DELETED");
 
     }
     @PostMapping("/returnLoan")

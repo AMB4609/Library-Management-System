@@ -59,7 +59,7 @@ public class MemberShipController {
     }
     @GetMapping("/getMemberShipByUserId")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public ResponseEntity<MemberShip> getMemberShipByUserId() {
+    public ResponseEntity<Object> getMemberShipByUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         return ResponseEntity.ok().body(memberShipService.getMemberShipByUserId(userEmail));

@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
@@ -36,10 +38,16 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
         if (reviewDTO.getRating() == null) {
             throw new NoRatingException("Please specify the rating also");
         }
-
         Book book = bookRepository.findById(reviewDTO.getBookId())
                 .orElseThrow(() -> new RuntimeException("Book not found for ID: " + reviewDTO.getBookId()));
 
+        Optional<ReviewAndRating> existingReview = reviewRepository.findByBookAndUser(book, user);
+        if (existingReview.isPresent()) {
+            throw new NotYourReviewException("You have already reviewed this book!");
+        }
+        if(Objects.equals(reviewDTO.getBookId(), book.getBookId())){
+            throw new NotYourReviewException("You are already reviewed!");
+        }
         ReviewAndRating reviewAndRating = new ReviewAndRating();
         reviewAndRating.setReview(reviewDTO.getReview());
         reviewAndRating.setRating(reviewDTO.getRating());
@@ -100,7 +108,7 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
                 review.getLikedUsers().add(user);
                 review.addLike();
             }else{
-                review.getDislikedUsers().add(user);
+                review.getLikedUsers().add(user);
                 review.addLike();
             }
             // Like the review

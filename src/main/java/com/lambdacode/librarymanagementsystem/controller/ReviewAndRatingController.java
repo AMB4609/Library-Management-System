@@ -42,6 +42,6 @@ public class ReviewAndRatingController {
     public ResponseEntity<ReviewAndRating> toggleDisLikeToReview(@RequestBody ReviewDTO reviewDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        return ResponseEntity.ok(reviewAndRatingService.toggleDislikeToReview(userEmail,reviewDTO));
+        return ResponseEntity.ok(reviewAndRatingService.toggleDislikeToReview(userEmail, reviewDTO));
     }
 }

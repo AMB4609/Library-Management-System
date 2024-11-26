@@ -82,7 +82,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public UpdateBookDTO updateBookDetails(UpdateBookDTO updatebookDTO) {
         Book updateBook = bookRepository.findById(updatebookDTO.getBookId())
-                .orElseThrow(() -> new NotFoundException("Book not found for ID: " + updatebookDTO.getBookId()));
+                .orElseThrow(() -> new NotFoundException("Book not found for ID: "));
         if (updatebookDTO.getAuthorId() == null || updatebookDTO.getPublisherName() == null || updatebookDTO.getCategoryId() == null) {
             throw new NotFoundException("Author ID, Publisher Name, and Category ID must not be null.");
         }

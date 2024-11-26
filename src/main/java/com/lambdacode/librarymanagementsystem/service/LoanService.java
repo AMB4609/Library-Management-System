@@ -15,7 +15,7 @@ public interface LoanService {
 
     ReturnDTO returnBook(ReturnDTO returnDTO);
 
-    LoanDTO deleteLoan(LoanDTO loanDTO);
+    void deleteLoan(LoanDTO loanDTO);
 
     Object getAllLoanByUserId(String userEmail, LoanDTO loanDTO);
 

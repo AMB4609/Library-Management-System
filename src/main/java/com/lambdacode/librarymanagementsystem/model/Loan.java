@@ -29,7 +29,7 @@ public class Loan {
 @Column(name = "due_date")
     private LocalDate dueDate;
 
-    private LocalDate returnDate;
+    private LocalDate returnDate = LocalDate.of(2014,1,1);
 
 
 }

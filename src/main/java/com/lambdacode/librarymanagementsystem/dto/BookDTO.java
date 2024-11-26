@@ -14,7 +14,6 @@ import java.util.List;
 public class BookDTO {
     private Long bookId;
     private Long authorId;
-    private List<Long> branchIds;
     private String publisherName;
     private Long categoryId;
     private List<ReviewAndRating> reviews;

@@ -98,11 +98,10 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public LoanDTO deleteLoan(LoanDTO loanDTO) {
+    public void deleteLoan(LoanDTO loanDTO) {
         Loan loan = loanRepository.findById(Math.toIntExact(loanDTO.getLoanId()))
                 .orElseThrow(() -> new NoSuchElementException("Loan not found for ID: " + loanDTO.getLoanId()));
         loanRepository.delete(loan);
-        return loanDTO;
     }
 
     @Override

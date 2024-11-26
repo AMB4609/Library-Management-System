@@ -34,6 +34,6 @@ public class User {
     @Column(name = "user_address")
     private String address;
 
-    private Integer loanCount;
+    private Integer loanCount = 0;
 
 }
