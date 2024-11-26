@@ -21,15 +21,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<User> updateUser(UpdateUserDetailsDTO updateUserDetailsDTO) {
-        User user = userRepository.findById(updateUserDetailsDTO.getUserId())
-                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + updateUserDetailsDTO.getUserId()));
+        try{
 
-        user.setAddress(updateUserDetailsDTO.getUserAddress());
-        user.setName(updateUserDetailsDTO.getUserName());
-        user.setEmail(updateUserDetailsDTO.getUserEmail());
-        user.setPhone(updateUserDetailsDTO.getUserPhone());
-        userRepository.save(user);
-        return ResponseEntity.ok(user);
+            User user = userRepository.findById(updateUserDetailsDTO.getUserId())
+                    .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + updateUserDetailsDTO.getUserId()));
+
+            user.setAddress(updateUserDetailsDTO.getUserAddress());
+            user.setName(updateUserDetailsDTO.getUserName());
+            user.setEmail(updateUserDetailsDTO.getUserEmail());
+            user.setPhone(updateUserDetailsDTO.getUserPhone());
+            userRepository.save(user);
+            return ResponseEntity.ok(user);
+        }catch (NoSuchElementException e){
+            throw e;
+        }
+
     }
 
     @Override

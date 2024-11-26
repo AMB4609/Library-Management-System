@@ -1,6 +1,7 @@
 package com.lambdacode.librarymanagementsystem.service.branchImpl;
 
 import com.lambdacode.librarymanagementsystem.dto.BranchDTO;
+import com.lambdacode.librarymanagementsystem.dto.getAllBranchesDTO;
 import com.lambdacode.librarymanagementsystem.mapper.BranchMapper;
 import com.lambdacode.librarymanagementsystem.model.Branch;
 import com.lambdacode.librarymanagementsystem.model.Staff;
@@ -48,9 +49,9 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public List<BranchDTO> getAllBranches() {
+    public List<getAllBranchesDTO> getAllBranches() {
         List<Branch> branches = branchRepository.findAll();
-        return branchMapper.toBranchDTOs(branches);
+        return branchMapper.getAllBranchesDTOS(branches);
     }
 
     @Override

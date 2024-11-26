@@ -4,15 +4,17 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalTime;
+
 @Data
 @Getter
 @Setter
-public class BranchDTO {
+public class getBranchByIdDTO {
     private Long branchId;
     private String branchName;
     private String branchLocation;
     private String contact;
-    private String openingTime;
-    private String closingTime;
-    private Integer numberOfEmployees;
+    private LocalTime openingTime;
+    private LocalTime closingTime;
+    private boolean getIsOpen;
 }

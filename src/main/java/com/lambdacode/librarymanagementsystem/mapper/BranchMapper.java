@@ -1,13 +1,12 @@
 package com.lambdacode.librarymanagementsystem.mapper;
 
 import com.lambdacode.librarymanagementsystem.dto.BranchDTO;
-import com.lambdacode.librarymanagementsystem.dto.StaffDTO;
+import com.lambdacode.librarymanagementsystem.dto.getAllBranchesDTO;
+import com.lambdacode.librarymanagementsystem.dto.getBranchByIdDTO;
 import com.lambdacode.librarymanagementsystem.model.Branch;
-import com.lambdacode.librarymanagementsystem.model.Staff;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
-
 import java.util.List;
 import java.util.stream.Collectors;
 @Component
@@ -24,17 +23,33 @@ public class BranchMapper {
         branchDTO.setOpeningTime(branch.getOpeningTime().format(TIME_FORMATTER));
         branchDTO.setClosingTime(branch.getClosingTime().format(TIME_FORMATTER));
         branchDTO.setNumberOfEmployees(branch.getNumberOfEmployees());
-        branchDTO.setIsActive(branch.getIsOpen());
-        if (branch.getStaff() != null) {
-            branchDTO.setStaffId(branch.getStaff().getId());
-        }
         return branchDTO;
     }
 
 
-    public List<BranchDTO> toBranchDTOs(List<Branch> branches) {
+    public List<getAllBranchesDTO> getAllBranchesDTOS(List<Branch> branches) {
         return branches.stream()
-                .map(this::toBranchDTO)
+                .map(this::allBranchesDTO)
                 .collect(Collectors.toList());
+    }
+
+    private getAllBranchesDTO allBranchesDTO(Branch branch) {
+        getAllBranchesDTO allBranchesDTO = new getAllBranchesDTO();
+        allBranchesDTO.setBranchId(branch.getBranchId());
+        allBranchesDTO.setBranchName(branch.getBranchName());
+        allBranchesDTO.setBranchLocation(branch.getBranchLocation());
+        allBranchesDTO.setGetIsOpen(branch.getIsOpen());
+        return allBranchesDTO;
+    }
+    
+    public getBranchByIdDTO getBranchByIdDTOS(Branch branch){
+        getBranchByIdDTO b = new getBranchByIdDTO();
+        b.setBranchName(branch.getBranchName());
+        b.setBranchLocation(branch.getBranchLocation());
+        b.setGetIsOpen(branch.getIsOpen());
+        b.setOpeningTime(branch.getOpeningTime());
+        b.setClosingTime(branch.getClosingTime());
+        b.setGetIsOpen(branch.getIsOpen());
+        return b;
     }
 }
