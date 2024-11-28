@@ -9,31 +9,34 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_LIBRARIAN_OR_ADMIN;
+import static com.lambdacode.librarymanagementsystem.constant.CategoryConstant.*;
+
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping(CATEGORY)
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-    @PostMapping("/addCategory")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @PostMapping( ADD_CATEGORY)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<Void> addCategory(@RequestBody Category category) {
         categoryService.addCategory(category);
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/getCategoryById")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @GetMapping(GET_CATEGORY_BY_ID)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<Category> getCategoryById(@RequestBody Category category) {
         Category categoryDetails = categoryService.getCategoryById(category);
         return ResponseEntity.ok().body(categoryDetails);
     }
-    @GetMapping("/getAllCategories")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @GetMapping(GET_ALL_CATEGORIES)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<List<Category>> getAllCategories() {
         List<Category> categoryList = categoryService.getAllCategories();
         return ResponseEntity.ok().body(categoryList);
     }
-    @DeleteMapping("/deleteCategory")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @DeleteMapping(DELETE_CATEGORY)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<String> deleteCategory(@RequestBody Category category) {
         categoryService.deleteCategory(category);
         return ResponseEntity.ok().body("Deleted Category");

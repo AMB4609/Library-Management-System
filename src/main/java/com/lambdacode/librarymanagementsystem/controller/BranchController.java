@@ -1,48 +1,50 @@
 package com.lambdacode.librarymanagementsystem.controller;
 
-import com.lambdacode.librarymanagementsystem.dto.BranchDTO;
+import com.lambdacode.librarymanagementsystem.dto.*;
 import com.lambdacode.librarymanagementsystem.model.Branch;
 import com.lambdacode.librarymanagementsystem.service.BranchService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_ADMIN;
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_LIBRARIAN_OR_ADMIN;
+import static com.lambdacode.librarymanagementsystem.constant.BranchConstant.*;
+
 @RestController
-@RequestMapping("/api/branch")
+@RequestMapping(BRANCH)
+@Validated
 public class BranchController {
     @Autowired
     private BranchService branchService;
 
-    @PostMapping("/addBranch")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Branch> addBranch(@RequestBody BranchDTO branchDTO) {
+    @PostMapping(ADD_BRANCH)
+    @PreAuthorize(HAS_ROLE_ADMIN)
+    public ResponseEntity<GetBranchByIdDTO> addBranch(@Valid @RequestBody BranchDTO branchDTO) {
 
-            Branch branch = branchService.addBranch(branchDTO);
-
-            branch.getIsOpen();
-            return ResponseEntity.ok(branch);
+            GetBranchByIdDTO branchDTO2 = branchService.addBranch(branchDTO);
+            return ResponseEntity.ok(branchDTO2);
     }
-@DeleteMapping("/deleteBranch")
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-public ResponseEntity<Branch> deleteBranch(@RequestBody BranchDTO branchDTO) {
-            Branch branch = branchService.deleteBranch(branchDTO);
+@DeleteMapping(DELETE_BRANCH)
+@PreAuthorize(HAS_ROLE_ADMIN)
+public ResponseEntity<Branch> deleteBranch(@RequestBody BranchIdDTO branchIdDTO) {
+            Branch branch = branchService.deleteBranch(branchIdDTO);
             return ResponseEntity.ok(branch);
 }
-@GetMapping("/getAllBranches")
-        public ResponseEntity<List<BranchDTO>> getAllBranches() {
-            return ResponseEntity.ok(branchService.getAllBranches());
+    @GetMapping(GET_ALL_BRANCHES)
+    public ResponseEntity<List<GetAllBranchesDTO>> getAllBranches() {
+        List<GetAllBranchesDTO> branches = branchService.getAllBranches();
+        return ResponseEntity.ok(branches);
     }
-    @GetMapping("/getBranchById")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
-    public ResponseEntity<BranchDTO> getBranchById(@RequestBody BranchDTO branchDTO) {
 
-            BranchDTO getbranch = branchService.getBranchById(branchDTO);
-        return ResponseEntity.ok(getbranch);
+    @GetMapping(GET_BRANCH_BY_ID)
+    public ResponseEntity<BaseDTO> getBranchById(@RequestBody BranchIdDTO branchIdDTO) {
+        BaseDTO branch = branchService.getBranchById(branchIdDTO);
+        return ResponseEntity.ok(branch);
     }
 }
-

@@ -12,33 +12,36 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_USER;
+import static com.lambdacode.librarymanagementsystem.constant.ReviewAndRatingConstant.*;
+
 @RestController
-@RequestMapping("/api/reviewAndRating")
+@RequestMapping(REVIEW_AND_RATING)
 public class ReviewAndRatingController {
     @Autowired
     private ReviewAndRatingService reviewAndRatingService;
 
-    @PostMapping("/addReviewAndRating")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PostMapping(REVIEW_AND_RATING_ADD)
+    @PreAuthorize(HAS_ROLE_USER)
     public ResponseEntity<ReviewAndRating> addReviewAndRating(@RequestBody ReviewDTO reviewDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
             return ResponseEntity.ok(reviewAndRatingService.addReview(userEmail ,reviewDTO)) ;
     }
-    @PutMapping("/changeReviewAndRating")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PutMapping(REVIEW_AND_RATING_UPDATE)
+    @PreAuthorize(HAS_ROLE_USER)
     public ResponseEntity<ReviewAndRating> changeReviewAndRating(@RequestBody ReviewDTO reviewDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         return ResponseEntity.ok(reviewAndRatingService.changeReview(userEmail,reviewDTO));
     }
-    @PostMapping("/toggleLikeToReview")
+    @PostMapping(TOGGLE_LIKE_TO_REVIEW)
     public ResponseEntity<ReviewAndRating> toggleLikeToReview(@RequestBody ReviewDTO reviewDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         return ResponseEntity.ok(reviewAndRatingService.toggleLikeToReview(userEmail,reviewDTO));
     }
-    @PostMapping("/toggleDisLikeToReview")
+    @PostMapping(TOGGLE_DISLIKE_TO_REVIEW)
     public ResponseEntity<ReviewAndRating> toggleDisLikeToReview(@RequestBody ReviewDTO reviewDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();

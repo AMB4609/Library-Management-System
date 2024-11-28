@@ -12,53 +12,57 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_USER;
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.ROLE_LIBRARIAN;
+import static com.lambdacode.librarymanagementsystem.constant.MemberShipConstant.*;
+
 @RestController
-@RequestMapping("/api/membership")
+@RequestMapping(MEMBERSHIP)
 public class MemberShipController {
     @Autowired
     private MemberShipService memberShipService;
 
-    @PostMapping("/addMemberShip")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @PostMapping(ADD_MEMBERSHIP)
+    @PreAuthorize(ROLE_LIBRARIAN)
     public ResponseEntity<String> addMemberShip(@RequestBody MemberShipDTO memberShipDTO) {
 
         memberShipService.addMembership(memberShipDTO);
         return ResponseEntity.ok("Successfully added membership") ;
     }
 
-    @PostMapping("/paymentMembership")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @PostMapping(PAYMENT_MEMBERSHIP)
+    @PreAuthorize(ROLE_LIBRARIAN)
     public ResponseEntity<MemberShip> payment(@RequestBody MemberShipDTO memberShipDTO) {
        return ResponseEntity.ok().body(memberShipService.payment(memberShipDTO));
     }
 
-    @GetMapping("/getMemberShip")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @GetMapping(GET_MEMBERSHIP)
+    @PreAuthorize(ROLE_LIBRARIAN)
     public ResponseEntity<MemberShip> getMemberShip(@RequestBody MemberShipDTO memberShipDTO) {
             return ResponseEntity.ok().body(memberShipService.getMemberShip(memberShipDTO));
     }
 
-    @DeleteMapping("/deleteMemberShip")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @DeleteMapping(DELETE_MEMBERSHIP)
+    @PreAuthorize(ROLE_LIBRARIAN)
     public String deleteMemberShip(@RequestBody MemberShipDTO memberShipDTO) {
         memberShipService.deleteMemberShip(memberShipDTO);
         return "Successfully deleted membership";
     }
 
-    @PutMapping("/renewMemberShip")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @PutMapping(RENEW_MEMBERSHIP)
+    @PreAuthorize(ROLE_LIBRARIAN)
     public String renewMemberShip(@RequestBody MemberShipDTO memberShipDTO) {
         memberShipService.renewMembership(memberShipDTO);
         return "Successfully renewed membership";
     }
 
-    @GetMapping("/getAllMemberShips")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @GetMapping(GET_ALL_MEMBERSHIP)
+    @PreAuthorize(ROLE_LIBRARIAN)
     public ResponseEntity<List<MemberShip>> getAllMemberShips() {
         return ResponseEntity.ok().body(memberShipService.getAllMembership());
     }
-    @GetMapping("/getMemberShipByUserId")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping(GET_MEMBERSHIP_BY_USER_ID)
+    @PreAuthorize(HAS_ROLE_USER)
     public ResponseEntity<Object> getMemberShipByUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();

@@ -31,10 +31,7 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
     private UserRepository userRepository;
 
     public ReviewAndRating addReview(String userEmail,ReviewDTO reviewDTO){
-        User user = userRepository.findByEmail(userEmail);
-        if (user == null) {
-            throw new NotFoundException("Please login to add your review, If not registered please contact nearest Library!");
-        }
+        User user = validateUser(userEmail);
         if (reviewDTO.getRating() == null) {
             throw new NoRatingException("Please specify the rating also");
         }
@@ -63,7 +60,7 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
 
     @Override
     public ReviewAndRating changeReview(String userEmail,ReviewDTO reviewDTO) {
-        User user = userRepository.findByEmail(userEmail);
+        User user = validateUser(userEmail);
 
         ReviewAndRating reviewAndRating = reviewRepository.findById(Math.toIntExact(reviewDTO.getReviewAndRatingId()))
                 .orElseThrow(()-> new NotFoundException("Review you are looking for is not found"));
@@ -91,10 +88,7 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
     }
     @Override
     public ReviewAndRating toggleLikeToReview(String userEmail,ReviewDTO reviewDTO) {
-        User user = userRepository.findByEmail(userEmail);
-        if (user == null) {
-            throw new NotFoundException("Please login to add your review, If not registered please contact nearest Library!");
-        }
+        User user = validateUser(userEmail);
         Long reviewId = reviewDTO.getReviewAndRatingId(); // Ensure this method correctly retrieves the ID as a Long
         ReviewAndRating review = reviewRepository.findById(Math.toIntExact(reviewId))
                 .orElseThrow(() -> new NotFoundException("Review not found"));
@@ -119,11 +113,7 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
     @Override
     public ReviewAndRating toggleDislikeToReview(String userEmail, ReviewDTO reviewDTO) {
         // Retrieve the user by email
-        User user = userRepository.findByEmail(userEmail);
-        if (user == null) {
-            throw new NotFoundException("Please login to dislike/undo dislike the review. If not registered, please contact the nearest Library!");
-        }
-
+        User user = validateUser(userEmail);
         // Retrieve the review
         Long reviewId = reviewDTO.getReviewAndRatingId();
         ReviewAndRating review = reviewRepository.findById(Math.toIntExact(reviewId))
@@ -145,6 +135,13 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
 
         }
         return reviewRepository.save(review);
+    }
+    private User validateUser(String userEmail) {
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new NotFoundException("Please login to add your review. If not registered, please contact the nearest Library!");
+        }
+        return user;
     }
 
 }

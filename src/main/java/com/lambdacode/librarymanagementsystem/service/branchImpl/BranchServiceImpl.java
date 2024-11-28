@@ -1,17 +1,15 @@
 package com.lambdacode.librarymanagementsystem.service.branchImpl;
 
-import com.lambdacode.librarymanagementsystem.dto.BranchDTO;
-import com.lambdacode.librarymanagementsystem.dto.getAllBranchesDTO;
+import com.lambdacode.librarymanagementsystem.dto.*;
+import com.lambdacode.librarymanagementsystem.exception.ApplicationException;
 import com.lambdacode.librarymanagementsystem.mapper.BranchMapper;
 import com.lambdacode.librarymanagementsystem.model.Branch;
-import com.lambdacode.librarymanagementsystem.model.Staff;
 import com.lambdacode.librarymanagementsystem.repository.BranchRepository;
 import com.lambdacode.librarymanagementsystem.repository.StaffRepository;
 import com.lambdacode.librarymanagementsystem.service.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -24,40 +22,46 @@ public class BranchServiceImpl implements BranchService {
     @Autowired
     private BranchMapper branchMapper;
 
+    private Branch findBranchById(Long branchId) {
+        return branchRepository.findById(branchId)
+                .orElseThrow(() -> new ApplicationException(404, "Branch not found for ID: " + branchId));
+    }
+
+    private <T extends BaseDTO> T setResponseFields(T dto, int code, String message, boolean status) {
+        dto.setCode(code);
+        dto.setMessage(message);
+        dto.setStatus(status);
+        return dto;
+    }
+    // T le j pani banne bhayo one of the generics which makes us not need to cast in every returned value in methods
+
     @Override
-    public Branch addBranch(BranchDTO branchDTO) {
-//        Staff staff = staffRepository.findById(branchDTO.getStaffId())
-//                .orElseThrow(() -> new NoSuchElementException("Staff not found for ID: " + branchDTO.getStaffId()));
-        Branch branch = new Branch();
-        branch.setBranchName(branchDTO.getBranchName());
-        branch.setBranchLocation(branchDTO.getBranchLocation());
-        branch.setNumberOfEmployees(branchDTO.getNumberOfEmployees());
-        branch.setOpeningTime(LocalTime.parse(branchDTO.getOpeningTime()));
-        branch.setClosingTime(LocalTime.parse(branchDTO.getClosingTime()));
-        branch.setContact(branchDTO.getContact());
-//        branch.setStaff(staff);
+    public GetBranchByIdDTO addBranch(BranchDTO branchDTO) {
+        Branch branch = branchMapper.BranchDTOtoBranch(branchDTO);
         branchRepository.save(branch);
-        return branch;
+        GetBranchByIdDTO branchByIdDTO = branchMapper.getBranchByIdDTOS(branch);
+        return setResponseFields(branchByIdDTO, 200, "Success", true);
     }
 
     @Override
-    public Branch deleteBranch(BranchDTO branchDTO) {
-        Branch branch = branchRepository.findById(branchDTO.getBranchId())
-                .orElseThrow(() -> new NoSuchElementException("Branch not found for ID: " + branchDTO.getBranchId()));
+    public Branch deleteBranch(BranchIdDTO branchIdDTO) {
+        Branch branch = findBranchById(branchIdDTO.getBranchId());
         branchRepository.delete(branch);
         return branch;
     }
 
     @Override
-    public List<getAllBranchesDTO> getAllBranches() {
+    public List<GetAllBranchesDTO> getAllBranches() {
         List<Branch> branches = branchRepository.findAll();
-        return branchMapper.getAllBranchesDTOS(branches);
+        List<GetAllBranchesDTO> dtoList = branchMapper.getAllBranchesDTOS(branches);
+        dtoList.forEach(dto -> setResponseFields(dto, 200, "Branches retrieved successfully", true));
+        return dtoList;
     }
 
     @Override
-    public BranchDTO getBranchById(BranchDTO branchDTO) {
-        Branch branch = branchRepository.findById(branchDTO.getBranchId())
-                .orElseThrow(() -> new NoSuchElementException("Branch not found for ID: " + branchDTO.getBranchId()));
-        return branchMapper.toBranchDTO(branch);
+    public GetBranchByIdDTO getBranchById(BranchIdDTO branchIdDTO) {
+        Branch branch = findBranchById(branchIdDTO.getBranchId());
+        GetBranchByIdDTO dto = branchMapper.getBranchByIdDTOS(branch);
+        return setResponseFields(dto, 200, "Branch retrieved successfully", true);
     }
 }

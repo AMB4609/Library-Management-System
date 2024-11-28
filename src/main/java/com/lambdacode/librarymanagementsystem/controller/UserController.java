@@ -14,13 +14,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_LIBRARIAN_OR_ADMIN;
+import static com.lambdacode.librarymanagementsystem.constant.UserConstant.*;
+
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping(USER)
 public class UserController {
     @Autowired
     private UserService userService;
-    @PutMapping("/updateUser")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @PutMapping(UPDATE_USER)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<User> updateUser(@RequestBody UpdateUserDetailsDTO UpdateUserDetailsDTO) {
         try{
 //            User user = userService.updateUser(UpdateUserDetailsDTO);
@@ -29,8 +32,8 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-@DeleteMapping("/deleteUser")
-@PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+@DeleteMapping(DELETE_USER)
+@PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<Void> deleteUser(@RequestBody DeleteUserDTO deleteUserDTO) {
         try {
             userService.deleteUser(deleteUserDTO);
@@ -40,8 +43,8 @@ public class UserController {
         }
 
     }
-    @DeleteMapping("/deleteAllUsers")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @DeleteMapping(DELETE_ALL_USER)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<Void> deleteAllUsers() {
         try{
             userService.deleteAllUsers();
@@ -50,8 +53,8 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
-    @GetMapping("/getUserById")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @GetMapping(GET_USER_BY_ID)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<User> getUserById(@RequestBody UserDTO userDTO) {
         try{
 
@@ -60,8 +63,8 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-    @GetMapping("/getAllUsers")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @GetMapping(GET_ALL_USER)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<List<User>> getAllUsers() {
         try{
             return userService.getAllUsers();

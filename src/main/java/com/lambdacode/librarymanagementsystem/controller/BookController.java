@@ -12,47 +12,50 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_LIBRARIAN_OR_ADMIN;
+import static com.lambdacode.librarymanagementsystem.constant.BookConstant.*;
+
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping(BOOK)
 public class BookController {
     @Autowired
     private BookService bookService;
     @Autowired
     private BookRepository bookRepository;
 
-    @PostMapping("/addBook")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @PostMapping(ADD_BOOK)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<String> addBook(@RequestBody BookDTO bookDTO) {
             bookService.addBook(bookDTO);
             return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/updateBookStatus")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @PutMapping(UPDATE_BOOK_STATUS)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<Void> updateBookStatus(@RequestBody UpdateBookDTO updatebookDTO) {
     bookService.updateBookStatus(updatebookDTO);
     return ResponseEntity.ok().build();
 }
-    @DeleteMapping("/deleteBookById")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @DeleteMapping(DELETE_BOOK_BY_ID)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<Void> deleteBookByID(@RequestBody BookDTO bookDTO) {
             bookService.deleteBookById(bookDTO);
             return ResponseEntity.ok().build();
 
     }
-    @GetMapping("/getAllBooks")
+    @GetMapping(GET_ALL_BOOKS)
     public ResponseEntity<List<Book>> getAllBooksWithReviews() {
             List<Book> books = bookService.getAllBooksWithReviews();
             return ResponseEntity.ok(books);
 
     }
-    @GetMapping("/getBookById")
+    @GetMapping(GET_BOOK_BY_ID)
     public ResponseEntity<Book> getBookByID(@RequestBody BookDTO bookDTO) {
            Book books =  bookService.getBookById(bookDTO);
             return ResponseEntity.ok(books);
     }
-    @PutMapping("/updateBookDetails")
-    @PreAuthorize("hasAnyAuthority('ROLE_LIBRARIAN','ROLE_ADMIN')")
+    @PutMapping(UPDATE_BOOK_DETAILS)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
     public ResponseEntity<UpdateBookDTO> updateBookDetails(@RequestBody UpdateBookDTO updatebookDTO) {
         bookService.updateBookDetails(updatebookDTO);
         return ResponseEntity.ok().body(updatebookDTO);

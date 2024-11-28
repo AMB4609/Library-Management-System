@@ -12,40 +12,43 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_ADMIN;
+import static com.lambdacode.librarymanagementsystem.constant.StaffConstant.*;
+
 @RestController
-@RequestMapping("/api/staff")
+@RequestMapping(STAFF)
 public class StaffController {
     @Autowired
     private StaffService staffService;
 
-    @PutMapping("/updateStaff")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PutMapping(UPDATE_STAFF)
+    @PreAuthorize(HAS_ROLE_ADMIN)
     public ResponseEntity<Staff> updateStaff(@RequestBody StaffDTO staffDTO) {
             return staffService.updateStaff(staffDTO);
     }
 
-    @DeleteMapping("/deleteStaff")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping(DELETE_STAFF)
+    @PreAuthorize(HAS_ROLE_ADMIN)
     public ResponseEntity<Void> deleteStaff(@RequestBody StaffDTO staffDTO) {
             staffService.deleteStaff(staffDTO);
             return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteAllStaff")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping(DELETE_ALL_STAFF)
+    @PreAuthorize(HAS_ROLE_ADMIN)
     public ResponseEntity<Void> deleteAllStaff() {
             staffService.deleteAllStaff();
             return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/getStaffById")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping(GET_STAFF_BY_ID)
+    @PreAuthorize(HAS_ROLE_ADMIN)
     public ResponseEntity<Staff> getStaffById(@RequestBody StaffDTO staffDTO) {
             return staffService.getStaffById(staffDTO);
     }
 
-    @GetMapping("/getAllStaff")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping(GET_ALL_STAFF)
+    @PreAuthorize(HAS_ROLE_ADMIN)
     public ResponseEntity<List<Staff>> getAllStaff() {
             return staffService.getAllStaff();
     }

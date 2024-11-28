@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.lambdacode.librarymanagementsystem.constant.LoginConstant.LOGIN;
+import static com.lambdacode.librarymanagementsystem.constant.LoginConstant.LOGIN_USER;
+
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping(LOGIN)
 public class LoginController {
     @Autowired
     private MyUserDetailsServiceImpl userDetailsService;
@@ -33,7 +36,7 @@ public class LoginController {
 //    }
     @Autowired
     private LoginService loginService;
-    @PostMapping("/loginUser")
+    @PostMapping(LOGIN_USER)
     public ResponseEntity<Object> verifyLogin(@RequestBody LoginDTO loginDTO) throws Exception {
         return ResponseEntity.ok(loginService.verifyLogin(loginDTO));
     }
