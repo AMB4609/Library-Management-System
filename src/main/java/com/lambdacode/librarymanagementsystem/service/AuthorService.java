@@ -1,7 +1,6 @@
 package com.lambdacode.librarymanagementsystem.service;
 
 import com.lambdacode.librarymanagementsystem.model.Author;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

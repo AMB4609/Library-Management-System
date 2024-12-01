@@ -1,10 +1,5 @@
 package com.lambdacode.librarymanagementsystem.dto;
 
-import com.lambdacode.librarymanagementsystem.model.User;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

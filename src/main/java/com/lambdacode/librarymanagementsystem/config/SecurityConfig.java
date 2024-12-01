@@ -1,6 +1,5 @@
 package com.lambdacode.librarymanagementsystem.config;
 
-//import com.lambdacode.librarymanagementsystem.service.loginImpl.LoginServiceImpl;
 import com.lambdacode.librarymanagementsystem.filter.JwtFilter;
 import com.lambdacode.librarymanagementsystem.service.MyUserDetailsServiceImpl.MyUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 @Configuration
 @EnableWebSecurity

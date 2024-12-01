@@ -1,6 +1,5 @@
 package com.lambdacode.librarymanagementsystem.dto;
 
-import com.lambdacode.librarymanagementsystem.model.Branch;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

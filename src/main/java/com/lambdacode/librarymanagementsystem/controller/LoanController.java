@@ -1,9 +1,7 @@
 package com.lambdacode.librarymanagementsystem.controller;
 
 import com.lambdacode.librarymanagementsystem.dto.LoanDTO;
-
 import com.lambdacode.librarymanagementsystem.dto.ReturnDTO;
-import com.lambdacode.librarymanagementsystem.model.Loan;
 import com.lambdacode.librarymanagementsystem.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

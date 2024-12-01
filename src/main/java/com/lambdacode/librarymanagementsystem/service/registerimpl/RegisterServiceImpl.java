@@ -1,8 +1,8 @@
 package com.lambdacode.librarymanagementsystem.service.registerimpl;
 
 import com.lambdacode.librarymanagementsystem.dto.RegisterDTO;
-import com.lambdacode.librarymanagementsystem.exception.NotFoundException;
 import com.lambdacode.librarymanagementsystem.exception.AlreadyExistsException;
+import com.lambdacode.librarymanagementsystem.exception.NotFoundException;
 import com.lambdacode.librarymanagementsystem.model.Branch;
 import com.lambdacode.librarymanagementsystem.model.Staff;
 import com.lambdacode.librarymanagementsystem.model.User;

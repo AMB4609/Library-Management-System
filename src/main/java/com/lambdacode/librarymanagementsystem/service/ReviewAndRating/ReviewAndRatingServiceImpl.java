@@ -12,7 +12,6 @@ import com.lambdacode.librarymanagementsystem.repository.BookRepository;
 import com.lambdacode.librarymanagementsystem.repository.ReviewRepository;
 import com.lambdacode.librarymanagementsystem.repository.UserRepository;
 import com.lambdacode.librarymanagementsystem.service.ReviewAndRatingService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.lambdacode.librarymanagementsystem.exception.handler;
 
 import com.lambdacode.librarymanagementsystem.dto.BaseDTO;
-import com.lambdacode.librarymanagementsystem.exception.*;
+import com.lambdacode.librarymanagementsystem.exception.ApplicationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

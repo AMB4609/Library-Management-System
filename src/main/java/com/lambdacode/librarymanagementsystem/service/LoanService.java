@@ -2,8 +2,6 @@ package com.lambdacode.librarymanagementsystem.service;
 
 import com.lambdacode.librarymanagementsystem.dto.LoanDTO;
 import com.lambdacode.librarymanagementsystem.dto.ReturnDTO;
-import com.lambdacode.librarymanagementsystem.model.Loan;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

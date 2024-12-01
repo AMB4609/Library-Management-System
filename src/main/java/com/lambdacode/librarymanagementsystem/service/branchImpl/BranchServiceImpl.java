@@ -5,20 +5,17 @@ import com.lambdacode.librarymanagementsystem.exception.ApplicationException;
 import com.lambdacode.librarymanagementsystem.mapper.BranchMapper;
 import com.lambdacode.librarymanagementsystem.model.Branch;
 import com.lambdacode.librarymanagementsystem.repository.BranchRepository;
-import com.lambdacode.librarymanagementsystem.repository.StaffRepository;
 import com.lambdacode.librarymanagementsystem.service.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class BranchServiceImpl implements BranchService {
     @Autowired
     private BranchRepository branchRepository;
-    @Autowired
-    private StaffRepository staffRepository;
+
     @Autowired
     private BranchMapper branchMapper;
 

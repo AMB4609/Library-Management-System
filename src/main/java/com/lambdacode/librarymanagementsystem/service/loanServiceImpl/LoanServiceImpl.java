@@ -17,16 +17,13 @@ import com.lambdacode.librarymanagementsystem.repository.UserRepository;
 import com.lambdacode.librarymanagementsystem.service.LoanService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Service
 public class LoanServiceImpl implements LoanService {

@@ -1,8 +1,6 @@
 package com.lambdacode.librarymanagementsystem.mapper;
 
-import com.lambdacode.librarymanagementsystem.dto.BranchDTO;
 import com.lambdacode.librarymanagementsystem.dto.LoanDTO;
-import com.lambdacode.librarymanagementsystem.model.Branch;
 import com.lambdacode.librarymanagementsystem.model.Loan;
 import org.springframework.stereotype.Component;
 

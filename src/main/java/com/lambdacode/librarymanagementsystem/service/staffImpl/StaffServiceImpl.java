@@ -1,18 +1,15 @@
 package com.lambdacode.librarymanagementsystem.service.staffImpl;
 
 import com.lambdacode.librarymanagementsystem.dto.StaffDTO;
-import com.lambdacode.librarymanagementsystem.exception.NoRatingException;
 import com.lambdacode.librarymanagementsystem.exception.NotFoundException;
 import com.lambdacode.librarymanagementsystem.model.Staff;
 import com.lambdacode.librarymanagementsystem.repository.StaffRepository;
 import com.lambdacode.librarymanagementsystem.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class StaffServiceImpl implements StaffService {
