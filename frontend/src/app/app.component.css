@@ -1,0 +1,56 @@
+:host {
+  --pill-color: #007acc;
+  --divider-color: #ccc;
+}
+
+.main {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.angular-logo {
+  max-width: 150px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.divider {
+  width: 80%;
+  height: 1px;
+  background-color: var(--divider-color);
+  margin: 20px 0;
+}
+
+.pill-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pill {
+  padding: 10px 20px;
+  background-color: var(--pill-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.pill:hover {
+  background-color: #005fa3;
+}
