@@ -33,10 +33,10 @@ build/
 ### VS Code ###
 .vscode/
 
-# Frontend ignores (Angular-specific)
 frontend/node_modules/
 frontend/dist/
 frontend/.angular/
 frontend/.cache/
 frontend/.env
 frontend/.env.*
+
