@@ -1,5 +1,7 @@
 package com.lambdacode.librarymanagementsystem.service.loginImpl;
 
+import com.lambdacode.librarymanagementsystem.dto.BaseDTO;
+import com.lambdacode.librarymanagementsystem.dto.JwtResponse;
 import com.lambdacode.librarymanagementsystem.dto.LoginDTO;
 import com.lambdacode.librarymanagementsystem.model.StaffPrinciple;
 import com.lambdacode.librarymanagementsystem.model.UserPrinciple;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LoginServiceImpl implements LoginService {
+    private String token;
 
     @Autowired
     private UserRepository userRepository;
@@ -60,9 +63,13 @@ public class LoginServiceImpl implements LoginService {
             // Debug output to verify values of entityType and role
             System.out.println("Entity Type: " + entityType);
             System.out.println("Role: " + role);
-
+             String token = jwtService.generateToken(loginDTO.getEmail(), entityType, role);
+             JwtResponse codeToken = new JwtResponse(token);
+             codeToken.setCode(200);
+             codeToken.setMessage("Success");
+             codeToken.setStatus(true);
             // Generate and return the JWT token
-            return jwtService.generateToken(loginDTO.getEmail(), entityType, role);
+            return codeToken;
         }
 
         // If authentication failed, return a failure response

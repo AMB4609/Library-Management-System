@@ -1,5 +1,6 @@
 package com.lambdacode.librarymanagementsystem.controller;
 
+import com.lambdacode.librarymanagementsystem.dto.JwtResponse;
 import com.lambdacode.librarymanagementsystem.dto.LoginDTO;
 import com.lambdacode.librarymanagementsystem.service.JWTService;
 import com.lambdacode.librarymanagementsystem.service.LoginService;
@@ -32,6 +33,7 @@ public class LoginController {
     private LoginService loginService;
     @PostMapping(LOGIN_USER)
     public ResponseEntity<Object> verifyLogin(@RequestBody LoginDTO loginDTO) throws Exception {
-        return ResponseEntity.ok(loginService.verifyLogin(loginDTO));
+        Object token = loginService.verifyLogin(loginDTO);
+        return ResponseEntity.ok(token);
     }
 }

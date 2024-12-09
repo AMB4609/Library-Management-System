@@ -50,8 +50,8 @@ public class BookController {
 
     }
     @GetMapping(GET_BOOK_BY_ID)
-    public ResponseEntity<Book> getBookByID(@RequestBody BookDTO bookDTO) {
-           Book books =  bookService.getBookById(bookDTO);
+    public ResponseEntity<Book> getBookByID(@PathVariable long bookId) {
+           Book books =  bookService.getBookById(bookId);
             return ResponseEntity.ok(books);
     }
     @PutMapping(UPDATE_BOOK_DETAILS)

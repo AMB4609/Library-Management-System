@@ -16,7 +16,7 @@ public interface BookService {
 
     List<Book> getAllBooksWithReviews();
 
-    Book getBookById(BookDTO bookDTO);
+    Book getBookById(long bookId);
 
     UpdateBookDTO updateBookDetails(UpdateBookDTO updatebookDTO);
 }

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Data
 public class BaseDTO {
-    private int code;
+    private Integer code;
     private String message;
     private boolean status;
 }

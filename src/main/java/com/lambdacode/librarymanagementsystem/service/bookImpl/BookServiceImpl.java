@@ -74,9 +74,9 @@ public class BookServiceImpl implements BookService {
 //    }
 
     @Override
-    public Book getBookById(BookDTO bookDTO) throws NoSuchElementException {
-        return bookRepository.findById(bookDTO.getBookId())
-                .orElseThrow(() -> new NotFoundException("Book not found for ID: " + bookDTO.getBookId()));
+    public Book getBookById(long bookId) throws NoSuchElementException {
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new NotFoundException("Book not found for ID: " + bookId));
     }
 
     @Override
