@@ -1,0 +1,38 @@
+<div class="col-12 ">
+<button  routerLink ="/addBook" class="btn btn-success btn-sm">View Details</button>
+</div>
+<div class="container mt-4">
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+    <tr>
+      <th>Book Name</th>
+      <th>Author</th>
+      <th>Category</th>
+      <th>Publisher</th>
+      <th>Release Date</th>
+      <th>ISBN</th>
+      <th>Available Copies</th>
+      <th>Average Rating</th>
+      <th>Actions</th> <!-- Optional: For Edit/Delete actions -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let book of books">
+      <td>{{ book.bookName }}</td>
+      <td>{{ book.author.authorName }} {{ book.author.authorSurname }}</td>
+      <td>{{ book.category.categoryName }}</td>
+      <td>{{ book.publisher }}</td>
+      <td>{{ book.releaseDate }}</td>
+      <td>{{ book.isbn }}</td>
+      <td>{{ book.booksAvailable }}</td>
+      <td>{{ book.averageRating }}</td>
+      <td>
+        <!-- Example actions you might want to include -->
+        <button class="btn btn-primary btn-sm">Edit</button>
+        <button class="btn btn-danger btn-sm">Delete</button>
+        <button (click)="getBookById(book.bookId)" class="btn btn-success btn-sm">View Details</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

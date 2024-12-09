@@ -1,0 +1,44 @@
+<!-- book-details.component.html -->
+<div *ngIf="book" class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h2>{{ book.bookName }}</h2>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Details</h5>
+      <p class="card-text" *ngIf="book.bookDescription; else noDescription">
+        {{ book.bookDescription }}
+      </p>
+      <ng-template #noDescription>No description available.</ng-template>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Author:</strong> {{ book.author.authorName }} {{ book.author.authorSurname }}</li>
+        <li class="list-group-item"><strong>Email:</strong> {{ book.author.authorEmail }}</li>
+        <li class="list-group-item"><strong>Publisher:</strong> {{ book.publisher }}</li>
+        <li class="list-group-item"><strong>Category:</strong> {{ book.category.categoryName }}</li>
+        <li class="list-group-item"><strong>ISBN:</strong> {{ book.isbn }}</li>
+        <li class="list-group-item"><strong>Release Date:</strong> {{ book.releaseDate }}</li>
+        <li class="list-group-item"><strong>Available Copies:</strong> {{ book.booksAvailable }}</li>
+        <li class="list-group-item"><strong>Average Rating:</strong> {{ book.averageRating }}</li>
+        <li class="list-group-item"><strong>Availability:</strong> {{ book.isAvailable ? 'Available' : 'Not Available' }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <h3>Reviews</h3>
+    <div *ngFor="let review of book.reviews" class="card mt-2">
+      <div class="card-body">
+        <h5 class="card-title">{{ review.user.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ review.reviewDate }}</h6>
+        <p class="card-text">{{ review.review }}</p>
+        <p class="card-text"><small>Rating: {{ review.rating }}</small></p>
+        <p class="card-text"><small>Likes: {{ review.likeCount }}</small>, <small>Dislikes: {{ review.dislikeCount }}</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="book.reviews.length === 0" class="alert alert-info mt-4">
+    No reviews available.
+  </div>
+</div>
