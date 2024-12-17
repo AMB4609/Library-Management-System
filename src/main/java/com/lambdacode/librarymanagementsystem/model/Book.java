@@ -10,7 +10,6 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Getter
 @Setter
 @Entity(name = "books")

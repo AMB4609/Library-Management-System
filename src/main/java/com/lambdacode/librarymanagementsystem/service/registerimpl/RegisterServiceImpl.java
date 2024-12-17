@@ -27,7 +27,6 @@ private StaffRepository staffRepository;
     @Override
     public  User registerUser(RegisterDTO registerDTO){
             User user = new User();
-            user.setId(registerDTO.getId());
             user.setAddress(registerDTO.getAddress());
             user.setName(registerDTO.getName());
             user.setPassword(encoder.encode(registerDTO.getPassword()));

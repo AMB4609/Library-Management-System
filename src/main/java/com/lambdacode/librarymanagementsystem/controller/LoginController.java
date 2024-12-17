@@ -18,10 +18,6 @@ import static com.lambdacode.librarymanagementsystem.constant.LoginConstant.LOGI
 @RestController
 @RequestMapping(LOGIN)
 public class LoginController {
-    @Autowired
-    private MyUserDetailsServiceImpl userDetailsService;
-    @Autowired
-    private JWTService jwtService;
 //    public ResponseEntity<Object> login(@RequestBody String email) {
 //        try{
 //            return ResponseEntity.ok(userDetailsService.loadUserByUsername(email));

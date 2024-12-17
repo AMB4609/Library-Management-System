@@ -48,7 +48,7 @@ public class SecurityConfig {
 //                        .permitAll()
 //                        .requestMatchers("api/register/registerStaff")
 //                        .permitAll()
-                        .requestMatchers("api/login/loginUser", "api/book/getBookById/{bookId}", "api/book/getAllBooks","api/reviewAndRating/addReviewAndRating","api/reviewAndRating/toggleLikeToReview","api/reviewAndRating/toggleDisLikeToReview")
+                        .requestMatchers("api/login/loginUser", "api/books/getBookById/{bookId}", "api/books/getAllBooks","api/reviewAndRating/addReviewAndRating","api/reviewAndRating/toggleLikeToReview","api/reviewAndRating/toggleDisLikeToReview")
                         .permitAll()
                          // this permit all the requestMatcher's request which means these pages only get access without spring security Interference
                         .anyRequest().authenticated())//no one is able to access the page without authentication except requestMatchers pages

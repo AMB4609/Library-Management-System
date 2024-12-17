@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators, ReactiveFormsModule} from '@angular/forms';
 import { BookService } from '../../Service/book.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-book',
@@ -10,31 +11,53 @@ import { BookService } from '../../Service/book.service';
   ],
   styleUrls: ['./add-book.component.css']
 })
-export class AddBookComponent {
+export class AddBookComponent implements OnInit {
   bookForm: FormGroup;
+  isEditing: boolean = false;
+  id : number | undefined = undefined;
 
-  constructor(private bookService: BookService) {
+  constructor(
+    private bookService: BookService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.bookForm = new FormGroup({
-      authorId: new FormControl('', Validators.required),
+      bookId: new FormControl(this.route.snapshot.params['id']),
+      authorId: new FormControl('',Validators.required),
+      authorName: new FormControl('', Validators.required),
       publisherName: new FormControl('', Validators.required),
       categoryId: new FormControl('', Validators.required),
       bookName: new FormControl('', Validators.required),
-      ISBN: new FormControl('', [Validators.required, Validators.pattern(/^\d{3}$/)]),
+      ISBN: new FormControl('', Validators.required),
       booksAvailable: new FormControl('', [Validators.required, Validators.min(1)]),
       status: new FormControl(true, Validators.required),
       releaseDate: new FormControl('', Validators.required)
     });
   }
 
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+       this.id = +params['id']; // + converts string 'id' to a number
+      if (this.id) {
+        this.isEditing = true;
+        this.bookService.getBookById(this.id).subscribe(book => {
+          this.bookForm.patchValue(book.data);
+        });
+      }
+    });
+  }
+
   onSubmit() {
     if (this.bookForm.valid) {
-      // Implementation of what happens when the form is valid
-      this.bookService.addBook(this.bookForm.value).subscribe({
-        next: (response) => console.log('Book added:', response),
-        error: (error) => console.error('Error adding book:', error)
+      debugger;
+      const action = this.isEditing ? 'updateBook' : 'addBook';
+      this.bookService[action](this.bookForm.value).subscribe({
+        next: (response) => {
+          console.log(`${this.isEditing ? 'Updated' : 'Added'} book:`, response);
+          this.router.navigate(['/books']);
+        },
+        error: (error) => console.log(`Error ${this.isEditing ? 'updating' : 'adding'} book:`, error)
       });
-    } else {
-      console.error('Form is not valid:', this.bookForm.errors);
     }
   }
 }

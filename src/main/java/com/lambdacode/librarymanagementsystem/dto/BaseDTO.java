@@ -11,4 +11,5 @@ public class BaseDTO {
     private Integer code;
     private String message;
     private boolean status;
+    private Object data;
 }

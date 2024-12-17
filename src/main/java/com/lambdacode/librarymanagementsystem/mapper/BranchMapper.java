@@ -15,19 +15,6 @@ public class BranchMapper {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
 
-//    public BranchDTO toBranchDTO(Branch branch) {
-//        BranchDTO branchDTO = new BranchDTO();
-//        branchDTO.setBranchId(branch.getBranchId());
-//        branchDTO.setBranchName(branch.getBranchName());
-//        branchDTO.setBranchLocation(branch.getBranchLocation());
-//        branchDTO.setContact(branch.getContact());
-//        branchDTO.setOpeningTime(branch.getOpeningTime().format(TIME_FORMATTER));
-//        branchDTO.setClosingTime(branch.getClosingTime().format(TIME_FORMATTER));
-//        branchDTO.setNumberOfEmployees(branch.getNumberOfEmployees());
-//        return branchDTO;
-//    }
-
-
     public List<GetAllBranchesDTO> getAllBranchesDTOS(List<Branch> branches) {
         return branches.stream()
                 .map(this::allBranchesDTO)

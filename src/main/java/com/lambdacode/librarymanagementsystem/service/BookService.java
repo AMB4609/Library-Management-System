@@ -1,8 +1,10 @@
 package com.lambdacode.librarymanagementsystem.service;
 
+import com.lambdacode.librarymanagementsystem.dto.BaseDTO;
 import com.lambdacode.librarymanagementsystem.dto.BookDTO;
 import com.lambdacode.librarymanagementsystem.dto.UpdateBookDTO;
 import com.lambdacode.librarymanagementsystem.model.Book;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -12,11 +14,11 @@ public interface BookService {
 
     ResponseEntity<Object> updateBookStatus(UpdateBookDTO updatebookDTO);
 
-    void deleteBookById(BookDTO bookDTO);
+    void deleteBookById(Long bookId);
 
-    List<Book> getAllBooksWithReviews();
+    BaseDTO getAllBooksWithReviews(Pageable pageable);
 
-    Book getBookById(long bookId);
+    BaseDTO getBookById(long bookId);
 
     UpdateBookDTO updateBookDetails(UpdateBookDTO updatebookDTO);
 }

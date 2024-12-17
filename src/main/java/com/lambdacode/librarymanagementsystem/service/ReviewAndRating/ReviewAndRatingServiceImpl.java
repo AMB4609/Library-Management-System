@@ -41,9 +41,6 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
         if (existingReview.isPresent()) {
             throw new NotYourReviewException("You have already reviewed this book!");
         }
-        if(Objects.equals(reviewDTO.getBookId(), book.getBookId())){
-            throw new NotYourReviewException("You are already reviewed!");
-        }
         ReviewAndRating reviewAndRating = new ReviewAndRating();
         reviewAndRating.setReview(reviewDTO.getReview());
         reviewAndRating.setRating(reviewDTO.getRating());
@@ -86,55 +83,56 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
          return averageRating;
     }
     @Override
-    public ReviewAndRating toggleLikeToReview(String userEmail,ReviewDTO reviewDTO) {
+    public ReviewAndRating toggleLikeToReview(String userEmail, ReviewDTO reviewDTO) {
         User user = validateUser(userEmail);
         Long reviewId = reviewDTO.getReviewAndRatingId(); // Ensure this method correctly retrieves the ID as a Long
         ReviewAndRating review = reviewRepository.findById(Math.toIntExact(reviewId))
                 .orElseThrow(() -> new NotFoundException("Review not found"));
+
         if (review.getLikedUsers().contains(user)) {
-            // Unlike the review
+            // User already liked this review, so unlike it
             review.getLikedUsers().remove(user);
-            review.decrementLike(); // You need to implement this method
+            review.decrementLike();
         } else {
-            if(review.getDislikedUsers().contains(user)) {
+            // Add to liked users if not already liked
+            if (review.getDislikedUsers().contains(user)) {
+                // If previously disliked, remove from disliked and decrement dislike count
                 review.getDislikedUsers().remove(user);
-                review.getLikedUsers().add(user);
-                review.addLike();
-            }else{
-                review.getLikedUsers().add(user);
-                review.addLike();
+                review.decrementDislike();
             }
-            // Like the review
+            // Add user to liked users and increment like count
+            review.getLikedUsers().add(user);
+            review.addLike();
         }
         return reviewRepository.save(review);
     }
 
     @Override
     public ReviewAndRating toggleDislikeToReview(String userEmail, ReviewDTO reviewDTO) {
-        // Retrieve the user by email
         User user = validateUser(userEmail);
-        // Retrieve the review
         Long reviewId = reviewDTO.getReviewAndRatingId();
         ReviewAndRating review = reviewRepository.findById(Math.toIntExact(reviewId))
                 .orElseThrow(() -> new NotFoundException("Review not found"));
 
-        // Check if the user already disliked the review
         if (review.getDislikedUsers().contains(user)) {
+            // User already disliked this review, so remove dislike
             review.getDislikedUsers().remove(user);
             review.decrementDislike();
         } else {
+            // Add to disliked users if not already disliked
             if (review.getLikedUsers().contains(user)) {
+                // If previously liked, remove from liked and decrement like count
                 review.getLikedUsers().remove(user);
-                review.getDislikedUsers().add(user);
                 review.decrementLike();
-            }else{
-                review.getDislikedUsers().add(user);
-                review.addDislike();
             }
-
+            // Add user to disliked users and increment dislike count
+            review.getDislikedUsers().add(user);
+            review.addDislike();
         }
         return reviewRepository.save(review);
     }
+
+
     private User validateUser(String userEmail) {
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {

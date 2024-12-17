@@ -1,0 +1,9 @@
+/* Ensures higher specificity */
+.star-rating .fa-star {
+  color: #d3d3d3; /* Light gray for inactive stars */
+  cursor: pointer;
+}
+
+.star-rating .fa-star.filled {
+  color: #ffd700; /* Gold for active stars */
+}
