@@ -1,0 +1,33 @@
+.container {
+  max-width: 800px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.card-title {
+  color: #333;
+}
+
+.greeting {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.details-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.details-list li {
+  padding-bottom: 0.5rem;
+}
+
+.alert {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+}

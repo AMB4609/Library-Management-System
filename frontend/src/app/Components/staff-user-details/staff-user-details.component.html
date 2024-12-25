@@ -1,0 +1,47 @@
+<div class="container my-5">
+  <h2 class="mb-4 text-center text-primary">Dashboard</h2>
+
+  <!-- Admin or Librarian View -->
+  <div *ngIf="role === 'ADMIN' || role === 'LIBRARIAN'" class="card shadow-sm">
+    <div *ngIf="staff" class="card-body">
+      <h3 class="card-title text-secondary">Admin Section</h3>
+      <p class="greeting">Hello, {{staff.staffName}}!</p>
+      <div class="staff-details">
+        <h4>Staff Details:</h4>
+        <ul class="details-list">
+          <li><strong>Name:</strong> {{ staff.staffName }}</li>
+          <li><strong>Email:</strong> {{ staff.staffEmail }}</li>
+          <li><strong>Phone:</strong> {{ staff.staffPhone }}</li>
+          <li><strong>Address:</strong> {{ staff.staffAddress }}</li>
+          <li><strong>Position:</strong> {{ staff.position }}</li>
+          <li><strong>Branch ID:</strong> {{ staff.branchId }}</li>
+        </ul>
+      </div>
+      <button routerLink="/update-staff-user" class="btn btn-warning">Edit Details</button>
+    </div>
+  </div>
+
+  <!-- User View -->
+  <div *ngIf="role === 'USER'" class="card shadow-sm mt-3">
+    <div *ngIf="user" class="card-body">
+      <h3 class="card-title text-secondary">User Section</h3>
+      <p class="greeting">Hello, {{user.userName}}!</p>
+      <div class="staff-details">
+        <h4>User Details:</h4>
+        <ul class="details-list">
+          <li><strong>Name:</strong> {{ user.userName }}</li>
+          <li><strong>Email:</strong> {{ user.userEmail }}</li>
+          <li><strong>Phone:</strong> {{ user.userPhone }}</li>
+          <li><strong>Address:</strong> {{ user.userAddress }}</li>
+        </ul>
+      </div>
+      <button routerLink="/update-staff-user" class="btn btn-warning">Edit Details</button>
+    </div>
+  </div>
+
+  <!-- General Info for other roles -->
+  <div *ngIf="role !== 'ADMIN' && role !== 'USER' && role !== 'LIBRARIAN'" class="alert alert-light border-secondary mt-3">
+    <h3 class="alert-heading text-secondary">General Info</h3>
+    <p>If you are seeing this, you are either not logged in or do not have a specific role assigned.</p>
+  </div>
+</div>

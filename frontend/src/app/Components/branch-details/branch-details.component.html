@@ -1,0 +1,17 @@
+<div *ngIf="branch" class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h2>{{ branch.branchName }}</h2>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Details</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Location:</strong> {{ branch.branchLocation }}</li>
+        <li class="list-group-item"><strong>Contact:</strong> {{ branch.contact }}</li>
+        <li class="list-group-item"><strong>Opening Time:</strong> {{ branch.openingTime }}</li>
+        <li class="list-group-item"><strong>Closing Time:</strong> {{ branch.closingTime }}</li>
+        <li class="list-group-item"><strong>Status:</strong> {{ branch.getIsOpen ? 'Open' : 'Closed' }}</li>
+      </ul>
+    </div>
+  </div>
+</div>

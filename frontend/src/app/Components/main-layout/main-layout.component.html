@@ -1,0 +1,46 @@
+<nav *ngIf="showNavbar$ | async" class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <div class="container-fluid">
+    <!-- Brand/logo -->
+    <a class="navbar-brand" href="#">Logo</a>
+    <!-- Toggler/collapsible Button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="mynavbar">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <div *ngIf="authService.hasToken()">
+            <button class="nav-link active" routerLink="login" routerLinkActive="active">Login</button>
+          </div>
+
+          <div *ngIf="!authService.hasToken()">
+            <button class="nav-link active" (click)="authService.logout()">Logout</button>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link active" routerLink='branch' routerLinkActive='active'>Our Branches</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link active" routerLink='books' routerLinkActive='active'>Our Books</button>
+        </li>
+        <ul class="navbar-nav ml-auto"> <!-- Make sure this is positioned as needed -->
+            <li class="nav-item">
+              <a *ngIf="authService.hasAnyRole(['ADMIN', 'LIBRARIAN','USER'])" class="nav-link" routerLink="MyDetails" role="button">
+                <i class="fa fa-user" aria-hidden="true"></i> View Profile
+              </a>
+            </li>
+        </ul>
+      </ul>
+      <form class="d-flex">
+        <div *ngIf="authService.hasAnyRole(['ADMIN', 'LIBRARIAN'])">
+          <button class="btn btn-outline-secondary" routerLink="register" routerLinkActive="active">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+<div class="container pt-1">
+  <router-outlet (activate)="onActivate($event)" ></router-outlet>
+</div>
+

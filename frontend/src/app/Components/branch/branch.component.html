@@ -1,0 +1,30 @@
+<div class="col-12">
+  <button *ngIf="authService.hasRole('ADMIN')" routerLink="/addBranch" class="btn btn-success btn-sm">
+    Add Branch
+  </button>
+</div>
+<div class="container mt-4">
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+    <tr>
+      <th>Branch Name</th>
+      <th>Location</th>
+      <th>Is Open</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let branch of branches">
+      <td>{{ branch.branchName }}</td>
+      <td>{{ branch.branchLocation }}</td>
+      <td *ngIf="branch.getIsOpen">Open</td>
+      <td *ngIf="!branch.getIsOpen">Close</td>
+      <td>
+        <button *ngIf="authService.hasRole('ADMIN')" (click)="editBranch(branch.branchId)" class="btn btn-primary btn-sm">Edit</button>
+        <button *ngIf="authService.hasRole('ADMIN')" (click)="deleteBranchById(branch.branchId)" class="btn btn-danger btn-sm">Delete</button>
+        <button (click)="viewBranchDetails(branch.branchId)" class="btn btn-success btn-sm">View Details</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

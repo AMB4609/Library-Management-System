@@ -1,0 +1,50 @@
+.navbar {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Modern font */
+  background-color: #343a40; /* Dark gray background */
+  padding: 0.8rem 1rem; /* Balanced padding */
+}
+
+.navbar-brand {
+  font-size: 1.5rem; /* Larger brand/logo size */
+  font-weight: bold; /* Bold logo text */
+}
+
+.navbar-toggler {
+  border: none; /* Remove border from toggler */
+}
+
+.navbar-nav .nav-link {
+  margin-right: 1rem; /* Space between nav items */
+  font-size: 1.1rem; /* Slightly larger nav links for readability */
+}
+
+.nav-link.active {
+  background-color: #495057; /* Slightly lighter background for active link */
+  border-radius: 0.25rem; /* Rounded corners for active link */
+  color: #ffffff; /* White text color */
+}
+
+.btn-outline-secondary, .btn-outline-success {
+  border-color: #ffffff; /* White borders for buttons */
+  color: #ffffff; /* White text for better contrast */
+}
+
+.btn-outline-secondary:hover, .btn-outline-success:hover {
+  background-color: #ffffff; /* White background on hover */
+  color: #343a40; /* Dark text on hover */
+}
+
+.form-control {
+  margin-right: 0.5rem; /* Space between input and button */
+}
+
+.input-group {
+  border-radius: 0.25rem; /* Rounded borders for input group */
+}
+
+/* Responsiveness */
+@media (max-width: 575.98px) {
+  .navbar-nav {
+    margin-top: 0.5rem;
+  }
+}
