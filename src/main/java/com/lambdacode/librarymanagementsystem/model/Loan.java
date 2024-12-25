@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Loan {
     @Id
     @GeneratedValue
-    private long loanId;
+    private Long loanId;
 
     @ManyToOne
     @JoinColumn(name = "booksId")

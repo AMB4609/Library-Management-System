@@ -1,5 +1,6 @@
 package com.lambdacode.librarymanagementsystem.service;
 
+import com.lambdacode.librarymanagementsystem.dto.BaseDTO;
 import com.lambdacode.librarymanagementsystem.dto.DeleteUserDTO;
 import com.lambdacode.librarymanagementsystem.dto.UpdateUserDetailsDTO;
 import com.lambdacode.librarymanagementsystem.dto.UserDTO;
@@ -10,13 +11,13 @@ import java.util.List;
 
 public interface UserService {
 
-    ResponseEntity<User> updateUser(UpdateUserDetailsDTO updateUserDetailsDTO);
+    ResponseEntity<User> updateUser(Long id,UpdateUserDetailsDTO updateUserDetailsDTO);
 
     Object deleteUser(DeleteUserDTO deleteUserDTO);
 
     void deleteAllUsers();
 
-    ResponseEntity<User> getUserById(UserDTO userDTO);
+    BaseDTO getUserById(String userEmail);
 
     ResponseEntity<List<User>> getAllUsers();
 }

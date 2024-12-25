@@ -18,7 +18,7 @@ public class BookDTO {
     private Long categoryId;
     private List<ReviewAndRating> reviews;
     private String bookName;
-    private String ISBN;
+    private Long ISBN;
     private Long booksAvailable;
     private Boolean status;
     private LocalDate releaseDate;

@@ -11,4 +11,6 @@ public interface ReviewAndRatingService {
     ReviewAndRating toggleLikeToReview(String userEmail,ReviewDTO reviewDTO);
 
     ReviewAndRating toggleDislikeToReview(String userEmail, ReviewDTO reviewDTO);
+
+    Void deleteReview( Long reviewId);
 }

@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BranchDTO {
+    private Long branchId;
 
     @NotBlank(message = "Branch name is mandatory")
     @Size(max = 10, message = "Branch name must not exceed 10 characters")

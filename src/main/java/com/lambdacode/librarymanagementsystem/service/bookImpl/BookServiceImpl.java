@@ -44,7 +44,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addBook(BookDTO bookDTO) throws IllegalArgumentException, NotFoundException {
+    public void     addBook(BookDTO bookDTO) throws IllegalArgumentException, NotFoundException {
         if (bookDTO.getAuthorId() == null || bookDTO.getPublisherName() == null || bookDTO.getCategoryId() == null) {
             throw new NotFoundException("Author ID, Publisher Name, and Category ID must not be null.");
         }

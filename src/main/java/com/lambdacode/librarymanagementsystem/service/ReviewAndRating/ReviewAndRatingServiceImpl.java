@@ -132,6 +132,16 @@ public class ReviewAndRatingServiceImpl implements ReviewAndRatingService {
         return reviewRepository.save(review);
     }
 
+    @Override
+    public Void deleteReview(Long reviewId) {
+        ReviewAndRating review = reviewRepository.findById(Math.toIntExact(reviewId)).orElseThrow(()-> new NotFoundException("Review not found"));
+        reviewRepository.delete(review);
+        Book book = bookRepository.findById(review.getBook().getBookId()).orElseThrow(()-> new RuntimeException("Book not found"));
+        book.setAverageRating(averageRating(reviewRepository.findByBook(book)));
+        bookRepository.save(book);
+        return null;
+    }
+
 
     private User validateUser(String userEmail) {
         User user = userRepository.findByEmail(userEmail);

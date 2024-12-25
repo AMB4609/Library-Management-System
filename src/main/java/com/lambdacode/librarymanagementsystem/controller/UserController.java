@@ -1,5 +1,6 @@
 package com.lambdacode.librarymanagementsystem.controller;
 
+import com.lambdacode.librarymanagementsystem.dto.BaseDTO;
 import com.lambdacode.librarymanagementsystem.dto.DeleteUserDTO;
 import com.lambdacode.librarymanagementsystem.dto.UpdateUserDetailsDTO;
 import com.lambdacode.librarymanagementsystem.dto.UserDTO;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_LIBRARIAN_OR_ADMIN;
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_USER;
 import static com.lambdacode.librarymanagementsystem.constant.UserConstant.*;
 
 @RestController
@@ -23,11 +25,10 @@ public class UserController {
     @Autowired
     private UserService userService;
     @PutMapping(UPDATE_USER)
-    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
-    public ResponseEntity<User> updateUser(@RequestBody UpdateUserDetailsDTO UpdateUserDetailsDTO) {
+    @PreAuthorize(HAS_ROLE_USER)
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UpdateUserDetailsDTO UpdateUserDetailsDTO) {
         try{
-//            User user = userService.updateUser(UpdateUserDetailsDTO);
-            return userService.updateUser(UpdateUserDetailsDTO);
+            return userService.updateUser(id,UpdateUserDetailsDTO);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -54,11 +55,11 @@ public class UserController {
         }
     }
     @GetMapping(GET_USER_BY_ID)
-    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
-    public ResponseEntity<User> getUserById(@RequestBody UserDTO userDTO) {
+    @PreAuthorize(HAS_ROLE_USER)
+    public BaseDTO getUserById(@PathVariable String userEmail) {
         try{
 
-            return userService.getUserById(userDTO);
+            return userService.getUserById(userEmail);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

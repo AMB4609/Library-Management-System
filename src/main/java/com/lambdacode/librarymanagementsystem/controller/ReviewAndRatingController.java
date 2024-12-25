@@ -3,6 +3,7 @@ package com.lambdacode.librarymanagementsystem.controller;
 import com.lambdacode.librarymanagementsystem.dto.ReviewDTO;
 import com.lambdacode.librarymanagementsystem.model.ReviewAndRating;
 import com.lambdacode.librarymanagementsystem.service.ReviewAndRatingService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,5 +45,10 @@ public class ReviewAndRatingController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         return ResponseEntity.ok(reviewAndRatingService.toggleDislikeToReview(userEmail, reviewDTO));
+    }
+    @DeleteMapping(DELETE_REVIEW)
+    @PreAuthorize(HAS_ROLE_USER)
+    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+        return ResponseEntity.ok(reviewAndRatingService.deleteReview(reviewId));
     }
 }

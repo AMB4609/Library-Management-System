@@ -1,0 +1,56 @@
+.login-container {
+  max-width: 400px;
+  margin: 5% auto; /* Centering the card vertically and horizontally */
+  padding: 1rem;
+}
+
+.card {
+  border: none;
+  border-radius: 10px; /* Rounded corners for the card */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+}
+
+.card-body {
+  padding: 2rem; /* Generous padding within the card */
+}
+
+.avatar-img {
+  width: 100px; /* Fixed size for the avatar */
+  height: 100px;
+  border-radius: 50%; /* Circular avatar */
+}
+
+.form-control {
+  border-radius: 5px; /* Slightly rounded corners for inputs */
+  border: 1px solid #ced4da;
+  padding: 0.75rem 1rem; /* Comfortable padding inside the inputs */
+}
+
+.btn-primary {
+  padding: 0.75rem 1rem; /* Padding for the button */
+  border: none; /* Remove default border */
+  background-color: #007bff; /* Primary button color */
+  color: white;
+  font-size: 1rem;
+  letter-spacing: 0.05rem; /* More readable letter spacing */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+a {
+  color: #007bff;
+  text-decoration: none; /* No underline */
+}
+
+a:hover {
+  color: #0056b3; /* Darker shade on hover for links */
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+  .card-body {
+    padding: 1rem; /* Less padding in smaller screens */
+  }
+}

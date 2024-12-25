@@ -32,6 +32,7 @@ public class BranchMapper {
     
     public GetBranchByIdDTO getBranchByIdDTOS(Branch branch){
         GetBranchByIdDTO b = new GetBranchByIdDTO();
+        b.setBranchId(branch.getBranchId());
         b.setBranchName(branch.getBranchName());
         b.setBranchLocation(branch.getBranchLocation());
         b.setGetIsOpen(branch.getIsOpen());

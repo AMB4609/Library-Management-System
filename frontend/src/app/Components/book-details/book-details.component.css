@@ -5,5 +5,73 @@
 }
 
 .star-rating .fa-star.filled {
-  color: #ffd700; /* Gold for active stars */
+  color: #ffc107; /* Gold for active stars */
 }
+.review-list {
+  margin-top: 20px;
+}
+
+.review-card {
+  border: 1px solid #ddd; /* subtle border */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* soft shadow for depth */
+  background-color: #ffffff; /* white background */
+  border-radius: 8px; /* rounded corners for a softer look */
+  padding: 20px; /* spacing inside the card */
+  margin-bottom: 20px; /* space between cards */
+}
+
+.review-header {
+  margin-bottom: 15px; /* space below the header */
+}
+
+.review-actions button {
+  margin-left: 10px; /* space between buttons */
+}
+
+.star-rating .fa-star {
+  color: #fff9c4 /* star rating color */
+}
+
+.review-interactions button {
+  margin-right: 10px; /* space between interaction buttons */
+}
+.container {
+  max-width: 1500px; /* limits the card width for a more elegant design */
+}
+
+.card {
+  border: none; /* removes the default border */
+  border-radius: 8px; /* smooth corners */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* subtle shadow for depth */
+  overflow: hidden; /* ensures nothing spills outside the border */
+}
+
+.card-header {
+  background-color: #f8f9fa; /* light background for the header */
+  border-bottom: 1px solid #eaecef; /* subtle separation from the body */
+}
+
+.card-title {
+  font-size: 1.25rem; /* slightly larger title */
+  color: #333; /* dark grey for better readability */
+}
+
+.card-text {
+  color: #666; /* lighter text for the body to reduce visual weight */
+  font-size: 1rem; /* standard text size */
+}
+
+.list-group-item {
+  border: none; /* remove borders in the list for a cleaner look */
+  padding: 10px 20px; /* adequate padding for spacing */
+  background-color: transparent; /* removes background color */
+}
+
+.list-group-item:not(:last-child) {
+  border-bottom: 1px solid #eaecef; /* adds a subtle line between items */
+}
+
+.text-secondary {
+  color: #6c757d; /* softens the secondary text color */
+}
+

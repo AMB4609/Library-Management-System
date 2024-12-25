@@ -2,6 +2,7 @@ package com.lambdacode.librarymanagementsystem.exception.handler;
 
 import com.lambdacode.librarymanagementsystem.dto.BaseDTO;
 import com.lambdacode.librarymanagementsystem.exception.ApplicationException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
+@Log4j2
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -27,8 +29,16 @@ public class GlobalExceptionHandler {
         BaseDTO dto = new BaseDTO();
         dto.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         dto.setMessage(e.getMessage());
+        log.error("",e);
         dto.setStatus(false);
         return new ResponseEntity<>(dto, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        //log chai padhna saknu paryo
+        //optimization of code
+        // dont dto.setMessage(e.getMessage());
+        //log level
+        //test case
+        //
     }
 
     @ExceptionHandler(ApplicationException.class)

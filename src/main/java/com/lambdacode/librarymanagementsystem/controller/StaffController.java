@@ -1,6 +1,8 @@
 package com.lambdacode.librarymanagementsystem.controller;
 
+import com.lambdacode.librarymanagementsystem.dto.BaseDTO;
 import com.lambdacode.librarymanagementsystem.dto.StaffDTO;
+import com.lambdacode.librarymanagementsystem.dto.UpdateStaffDetailsDTO;
 import com.lambdacode.librarymanagementsystem.model.Staff;
 import com.lambdacode.librarymanagementsystem.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_ADMIN;
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_LIBRARIAN_OR_ADMIN;
 import static com.lambdacode.librarymanagementsystem.constant.StaffConstant.*;
 
 @RestController
@@ -22,8 +25,8 @@ public class StaffController {
 
     @PutMapping(UPDATE_STAFF)
     @PreAuthorize(HAS_ROLE_ADMIN)
-    public ResponseEntity<Staff> updateStaff(@RequestBody StaffDTO staffDTO) {
-            return staffService.updateStaff(staffDTO);
+    public ResponseEntity<Staff> updateStaff(@PathVariable Long id, @RequestBody UpdateStaffDetailsDTO staffDTO) {
+            return staffService.updateStaff(id,staffDTO);
     }
 
     @DeleteMapping(DELETE_STAFF)
@@ -41,9 +44,9 @@ public class StaffController {
     }
 
     @GetMapping(GET_STAFF_BY_ID)
-    @PreAuthorize(HAS_ROLE_ADMIN)
-    public ResponseEntity<Staff> getStaffById(@RequestBody StaffDTO staffDTO) {
-            return staffService.getStaffById(staffDTO);
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
+    public BaseDTO getStaffById(@PathVariable String staffEmail) {
+            return staffService.getStaffById(staffEmail);
     }
 
     @GetMapping(GET_ALL_STAFF)

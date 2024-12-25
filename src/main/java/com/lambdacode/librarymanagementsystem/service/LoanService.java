@@ -15,7 +15,7 @@ public interface LoanService {
 
     void deleteLoan(LoanDTO loanDTO);
 
-    Object getAllLoanByUserId(String userEmail, LoanDTO loanDTO);
+    Object getAllLoanByUserId(String userEmail);
 
     Object getLoanByUserId(String userEmail, LoanDTO loanDTO);
 }

@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class MemberShipImpl implements MemberShipService {
+public class  MemberShipImpl implements MemberShipService {
 
     @Autowired
     private  UserRepository userRepository;

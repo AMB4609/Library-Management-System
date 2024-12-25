@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 public class LoanServiceImpl implements LoanService {
@@ -102,13 +103,13 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Object getAllLoanByUserId(String userEmail, LoanDTO loanDTO) {
+    public Object getAllLoanByUserId(String userEmail) {
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {
             throw new NotFoundException("Please login to view your loans, If not registered please contact nearest Library!");
         }
         if (user.getLoanCount() > 0){
-            return loanMapper.toLoanDTOs(loanRepository.findAll());
+            return loanMapper.toLoanDTOs(loanRepository.findAllByUserId(user.getId()));
         }else {
             return "There is no loan to show!";
         }
@@ -116,14 +117,23 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Object getLoanByUserId(String userEmail, LoanDTO loanDTO) {
+        int loanId = Math.toIntExact(loanDTO.getLoanId());
+        Loan loan = loanRepository.findById(loanId).orElseThrow(
+                () -> new NoSuchElementException("Loan not found for ID: " + loanDTO.getLoanId())
+        );
+
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {
             throw new NotFoundException("Please login to view your loans, If not registered please contact nearest Library!");
         }
-        if (loanRepository.existsById(Math.toIntExact(loanDTO.getLoanId()))) {
-            return loanRepository.findById(Math.toIntExact(loanDTO.getLoanId()));
-        }else {
-            return "There is no loan to show!";
+        if (Objects.equals(userEmail, loan.getUser().getEmail())) {
+            if (user.getLoanCount() > 0){
+                return loanMapper.toLoanDTO(loan);
+            }else{
+                return "There is no loan to show!";
+            }
+        }else{
+            return "Not your loan to view";
         }
     }
 

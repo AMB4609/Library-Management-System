@@ -11,7 +11,7 @@ public class UpdateBookDTO {
     private Long bookId;
     private String bookName;
     private Long authorId;
-    private String iSBN;
+    private Long iSBN;
     private String publisherName;
     private Long CategoryId;
     private String bookDescription;

@@ -14,7 +14,7 @@ public class BookByIdDTO {
     private Long categoryId;
     private String bookName;
     private String bookDescription;
-    private String iSBN;
+    private Long iSBN;
     private Long booksAvailable;
     private LocalDate releaseDate;
     private String authorName;

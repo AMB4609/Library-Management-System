@@ -1,19 +1,18 @@
 package com.lambdacode.librarymanagementsystem.service;
 
-import com.lambdacode.librarymanagementsystem.dto.BranchDTO;
-import com.lambdacode.librarymanagementsystem.dto.BranchIdDTO;
-import com.lambdacode.librarymanagementsystem.dto.GetAllBranchesDTO;
-import com.lambdacode.librarymanagementsystem.dto.GetBranchByIdDTO;
+import com.lambdacode.librarymanagementsystem.dto.*;
 import com.lambdacode.librarymanagementsystem.model.Branch;
 
 import java.util.List;
 
 public interface BranchService {
-    GetBranchByIdDTO addBranch(BranchDTO branchDTO);
+    BaseDTO addBranch(BranchDTO branchDTO);
 
-    Branch deleteBranch(BranchIdDTO branchIdDTO);
+    BaseDTO deleteBranch(Long branchId);
 
-    List<GetAllBranchesDTO> getAllBranches();
+    BaseDTO getAllBranches();
 
-    GetBranchByIdDTO getBranchById(BranchIdDTO branchIdDTO);
+    BaseDTO getBranchById(Long branchId);
+
+    BaseDTO updateBranchById(BranchDTO branchDTO);
 }

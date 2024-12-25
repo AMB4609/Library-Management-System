@@ -1,5 +1,5 @@
 <div class="col-12 ">
-<button *ngIf="authService.hasRole('ADMIN')" routerLink ="/add" class="btn btn-success btn-sm">
+<button *ngIf="authService.hasRole('LIBRARIAN','ADMIN')" routerLink ="/add" class="btn btn-success btn-sm">
   Add Book
 </button>
 </div>
@@ -23,9 +23,9 @@
       <td>{{ book.booksAvailable }}</td>
       <td>{{ book.averageRating }}</td>
       <td>
-        <!-- Example actions you might want to include -->
-        <button  *ngIf="authService.hasRole('ADMIN')" (click)="editBook(book.bookId)"  class="btn btn-primary btn-sm">Edit</button>
-        <button *ngIf="authService.hasRole('ADMIN')" (click)="deleteBookById(book.bookId)" class="btn btn-danger btn-sm">Delete</button>
+
+        <button  *ngIf="authService.hasRole('ADMIN','LIBRARIAN')" (click)="editBook(book.bookId)"  class="btn btn-primary btn-sm">Edit</button>
+        <button *ngIf="authService.hasRole('ADMIN','LIBRARIAN')" (click)="deleteBookById(book.bookId)" class="btn btn-danger btn-sm">Delete</button>
         <button (click)="getBookById(book.bookId)" class="btn btn-success btn-sm">View Details</button>
       </td>
     </tr>

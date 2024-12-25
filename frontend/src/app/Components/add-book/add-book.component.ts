@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormGroup, FormControl, Validators, ReactiveFormsModule} from '@angular/forms';
-import { BookService } from '../../Service/book.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BookService } from '../../Service/book.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-book',
@@ -14,7 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AddBookComponent implements OnInit {
   bookForm: FormGroup;
   isEditing: boolean = false;
-  id : number | undefined = undefined;
+  id: number | undefined;
+  toastr = inject(ToastrService);
 
   constructor(
     private bookService: BookService,
@@ -22,9 +24,7 @@ export class AddBookComponent implements OnInit {
     private router: Router
   ) {
     this.bookForm = new FormGroup({
-      bookId: new FormControl(this.route.snapshot.params['id']),
-      authorId: new FormControl('',Validators.required),
-      authorName: new FormControl('', Validators.required),
+      authorId: new FormControl('', Validators.required),
       publisherName: new FormControl('', Validators.required),
       categoryId: new FormControl('', Validators.required),
       bookName: new FormControl('', Validators.required),
@@ -37,27 +37,47 @@ export class AddBookComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-       this.id = +params['id']; // + converts string 'id' to a number
+      this.id = +params['id']; // + converts string 'id' to a number
       if (this.id) {
         this.isEditing = true;
         this.bookService.getBookById(this.id).subscribe(book => {
-          this.bookForm.patchValue(book.data);
+          // Include bookId when loading the form for editing
+          this.bookForm.patchValue({
+            ...book.data,
+            bookId: this.id // Ensuring bookId is part of the form data during edits
+          });
         });
       }
     });
   }
 
   onSubmit() {
+    console.log(this.bookForm.value);
     if (this.bookForm.valid) {
-      debugger;
-      const action = this.isEditing ? 'updateBook' : 'addBook';
-      this.bookService[action](this.bookForm.value).subscribe({
-        next: (response) => {
-          console.log(`${this.isEditing ? 'Updated' : 'Added'} book:`, response);
-          this.router.navigate(['/books']);
-        },
-        error: (error) => console.log(`Error ${this.isEditing ? 'updating' : 'adding'} book:`, error)
-      });
+      if (this.isEditing) {
+        // Include the bookId only when updating
+        const updatedBookData = {
+          ...this.bookForm.value,
+          bookId: this.id
+        };
+        this.bookService.updateBook(updatedBookData).subscribe({
+          next: (response) => {
+            this.toastr.success('Updated book');
+            this.toastr.success('Book successfully added');
+            this.router.navigate(['/books']);
+          },
+          error: (error) => this.toastr.error('Error updating book')
+        });
+      } else {
+        // Add new book without bookId
+        this.bookService.addBook(this.bookForm.value).subscribe({
+          next: (response) => {
+            this.toastr.success('Added new book');
+            this.router.navigate(['/books']);
+          },
+          error: (error) => this.toastr.error('Error adding book')
+        });
+      }
     }
   }
 }

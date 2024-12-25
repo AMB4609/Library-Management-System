@@ -1,5 +1,6 @@
 package com.lambdacode.librarymanagementsystem.controller;
 
+import com.lambdacode.librarymanagementsystem.dto.BaseDTO;
 import com.lambdacode.librarymanagementsystem.dto.RegisterDTO;
 import com.lambdacode.librarymanagementsystem.model.Staff;
 import com.lambdacode.librarymanagementsystem.model.User;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_ADMIN;
 import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_LIBRARIAN_OR_ADMIN;
-import static com.lambdacode.librarymanagementsystem.constant.RegisterConstant.REGISTER;
-import static com.lambdacode.librarymanagementsystem.constant.RegisterConstant.REGISTER_USER;
+import static com.lambdacode.librarymanagementsystem.constant.RegisterConstant.*;
 
 @RestController
 @RequestMapping(REGISTER)
@@ -24,14 +24,14 @@ public class RegisterController {
     private RegisterService registerService;
     @PostMapping(REGISTER_USER)
     @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
-    public ResponseEntity<User> registerUser(@RequestBody RegisterDTO registerDTO){
-            User savedUser = registerService.registerUser(registerDTO);
+    public ResponseEntity<BaseDTO> registerUser(@RequestBody RegisterDTO registerDTO){
+            BaseDTO savedUser = registerService.registerUser(registerDTO);
             return ResponseEntity.ok(savedUser);
     }
-    @PostMapping("/registerStaff")
+    @PostMapping(REGISTER_STAFF)
     @PreAuthorize(HAS_ROLE_ADMIN)
-    public ResponseEntity<Staff> registerStaff(@RequestBody RegisterDTO registerDTO){
-            Staff savedStaff = registerService.registerStaff(registerDTO);
+    public ResponseEntity<BaseDTO> registerStaff(@RequestBody RegisterDTO registerDTO){
+            BaseDTO savedStaff = registerService.registerStaff(registerDTO);
             return ResponseEntity.ok(savedStaff);
     }
 //    @GetMapping("/testAdmin")

@@ -1,13 +1,11 @@
 package com.lambdacode.librarymanagementsystem.dto;
 
+
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-@Setter
-@Getter
-public class UpdateUserDetailsDTO {
+public class UserDetailsDTO {
+    private Long userId;
 
     private String userName;
 
@@ -16,6 +14,4 @@ public class UpdateUserDetailsDTO {
     private Long userPhone;
 
     private String userAddress;
-
-    private String userPassword;
 }

@@ -1,5 +1,6 @@
 package com.lambdacode.librarymanagementsystem.service.registerimpl;
 
+import com.lambdacode.librarymanagementsystem.dto.BaseDTO;
 import com.lambdacode.librarymanagementsystem.dto.RegisterDTO;
 import com.lambdacode.librarymanagementsystem.exception.AlreadyExistsException;
 import com.lambdacode.librarymanagementsystem.exception.NotFoundException;
@@ -24,8 +25,17 @@ private StaffRepository staffRepository;
     @Autowired
     private BranchRepository branchRepository;
 
+    private BaseDTO setResponseFields(Object data, int code, String message, boolean status) {
+        BaseDTO dto = new BaseDTO();
+        dto.setCode(code);
+        dto.setMessage(message);
+        dto.setStatus(status);
+        dto.setData(data);
+        return dto;
+    }
+
     @Override
-    public  User registerUser(RegisterDTO registerDTO){
+    public  BaseDTO registerUser(RegisterDTO registerDTO){
             User user = new User();
             user.setAddress(registerDTO.getAddress());
             user.setName(registerDTO.getName());
@@ -37,17 +47,18 @@ private StaffRepository staffRepository;
             if (existingUser != null || existingStaff != null) {
                 throw new AlreadyExistsException("Email already in use");
             }
-            return userRepository.save(user);
+            userRepository.save(user);
+
+            return setResponseFields(user,200,"success",true);
 
     }
 
     @Override
-    public Staff registerStaff(RegisterDTO registerDTO){
+    public BaseDTO registerStaff(RegisterDTO registerDTO){
         Branch branch = branchRepository.findById(registerDTO.getBranchId()).orElseThrow(
                 () -> new NotFoundException("Branch not found")
         );
         Staff staff = new Staff();
-        staff.setId(registerDTO.getId());
         staff.setName(registerDTO.getName());
         staff.setPassword(encoder.encode(registerDTO.getPassword()));
         staff.setEmail(registerDTO.getEmail());
@@ -60,6 +71,7 @@ private StaffRepository staffRepository;
         if (existingUser != null || existingStaff != null) {
             throw new AlreadyExistsException("Email already in use");
         }
-       return staffRepository.save(staff);
+       staffRepository.save(staff);
+        return setResponseFields(staff,200,"success",true);
     }
 }

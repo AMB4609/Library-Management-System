@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_ADMIN;
+import static com.lambdacode.librarymanagementsystem.constant.AuthorizeConstant.HAS_ROLE_LIBRARIAN_OR_ADMIN;
 import static com.lambdacode.librarymanagementsystem.constant.BranchConstant.*;
 
 @RestController
@@ -24,26 +25,32 @@ public class BranchController {
 
     @PostMapping(ADD_BRANCH)
     @PreAuthorize(HAS_ROLE_ADMIN)
-    public ResponseEntity<GetBranchByIdDTO> addBranch(@Valid @RequestBody BranchDTO branchDTO) {
+    public ResponseEntity<BaseDTO> addBranch(@Valid @RequestBody BranchDTO branchDTO) {
 
-            GetBranchByIdDTO branchDTO2 = branchService.addBranch(branchDTO);
+        BaseDTO branchDTO2 = branchService.addBranch(branchDTO);
             return ResponseEntity.ok(branchDTO2);
     }
 @DeleteMapping(DELETE_BRANCH)
 @PreAuthorize(HAS_ROLE_ADMIN)
-public ResponseEntity<Branch> deleteBranch(@RequestBody BranchIdDTO branchIdDTO) {
-            Branch branch = branchService.deleteBranch(branchIdDTO);
+public ResponseEntity<BaseDTO> deleteBranch(@PathVariable Long branchId) {
+    BaseDTO branch = branchService.deleteBranch(branchId);
             return ResponseEntity.ok(branch);
 }
     @GetMapping(GET_ALL_BRANCHES)
-    public ResponseEntity<List<GetAllBranchesDTO>> getAllBranches() {
-        List<GetAllBranchesDTO> branches = branchService.getAllBranches();
+    public ResponseEntity<BaseDTO> getAllBranches() {
+        BaseDTO branches = branchService.getAllBranches();
         return ResponseEntity.ok(branches);
     }
 
     @GetMapping(GET_BRANCH_BY_ID)
-    public ResponseEntity<BaseDTO> getBranchById(@RequestBody BranchIdDTO branchIdDTO) {
-        BaseDTO branch = branchService.getBranchById(branchIdDTO);
+    public ResponseEntity<BaseDTO> getBranchById(@PathVariable Long branchId) {
+        BaseDTO branch = branchService.getBranchById(branchId);
+        return ResponseEntity.ok(branch);
+    }
+    @PutMapping(UPDATE_BRANCH_DETAILS)
+    @PreAuthorize(HAS_ROLE_LIBRARIAN_OR_ADMIN)
+    public ResponseEntity<BaseDTO> updateBranchDetails(@RequestBody BranchDTO branchDTO) {
+        BaseDTO branch = branchService.updateBranchById(branchDTO);
         return ResponseEntity.ok(branch);
     }
 }

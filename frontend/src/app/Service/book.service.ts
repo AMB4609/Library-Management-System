@@ -26,7 +26,7 @@ export class BookService {
 
   }
   updateBook(formValue: any):Observable<null> {
-    debugger;
+    ;
     return this.http.put<null>(`${this.apiUrl}/updateBookDetails`,formValue);
   }
 
@@ -34,7 +34,7 @@ export class BookService {
     return this.http.delete<null>(`${this.apiUrl}/deleteBookById/${bookId}`);
   }
   toggleLike(reviewAndRatingId: number):Observable<boolean> {
-    debugger;
+    ;
     return this.http.post<boolean>(`${this.reviewUrl}/toggleLikeToReview`, reviewAndRatingId);
   }
   toggleDislike(reviewAndRatingId: number):Observable<boolean> {
@@ -42,7 +42,16 @@ export class BookService {
   }
 
   addReview(formValue :any ):Observable<null> {
-    debugger;
+    ;
     return this.http.post<null>(`${this.reviewUrl}/addReviewAndRating`, formValue);
+  }
+  updateReview(formValue: any):Observable<null> {
+    ;
+    return this.http.put<null>(`${this.reviewUrl}/changeReviewAndRating`, formValue);
+  }
+
+  deleteReview(reviewAndRatingId: number) {
+    ;;
+    return this.http.delete<null>(`${this.reviewUrl}/deleteReviewAndRating/${reviewAndRatingId}`);
   }
 }

@@ -40,7 +40,7 @@ public class Book {
 
     private String bookDescription;
 
-    private String iSBN;
+    private Long iSBN;
 
     private Long booksAvailable;
 
@@ -56,7 +56,7 @@ public class Book {
 //
 
 
-    private Double averageRating;
+    private Double averageRating = 0.0;
 
     @Transient
     public boolean getIsAvailable() {

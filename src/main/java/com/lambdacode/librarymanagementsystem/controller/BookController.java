@@ -43,7 +43,7 @@ public class BookController {
 
     }
     @GetMapping(GET_ALL_BOOKS)
-    public ResponseEntity<BaseDTO> getAllBooksWithReviews(Pageable pageable) {
+    public ResponseEntity<BaseDTO> getAllBooksWithReviews(@RequestParam Pageable pageable) {
             BaseDTO books = bookService.getAllBooksWithReviews(pageable);
             return ResponseEntity.ok(books);
 

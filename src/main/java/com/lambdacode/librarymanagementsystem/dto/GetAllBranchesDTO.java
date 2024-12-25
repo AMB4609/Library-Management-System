@@ -7,7 +7,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class GetAllBranchesDTO extends BaseDTO {
+public class GetAllBranchesDTO {
     private Long branchId;
     private String branchName;
     private String branchLocation;

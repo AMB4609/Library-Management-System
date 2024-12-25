@@ -9,7 +9,7 @@ import java.time.LocalTime;
 @Data
 @Getter
 @Setter
-public class GetBranchByIdDTO extends BaseDTO {
+public class GetBranchByIdDTO {
     private Long branchId;
     private String branchName;
     private String branchLocation;

@@ -46,10 +46,10 @@ public class LoanController {
     }
     @GetMapping(GET_ALL_LOAN_BY_USER_ID)
     @PreAuthorize(HAS_ROLE_USER)
-    public ResponseEntity<Object> getAllLoanByUserId(@RequestBody LoanDTO loanDTO) {
+    public ResponseEntity<Object> getAllLoanByUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        return ResponseEntity.ok().body(loanService.getAllLoanByUserId(userEmail,loanDTO));
+        return ResponseEntity.ok().body(loanService.getAllLoanByUserId(userEmail));
     }
     @GetMapping(GET_LOAN_BY_USER_ID)
     @PreAuthorize(HAS_ROLE_USER)

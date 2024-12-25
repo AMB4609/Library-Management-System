@@ -3,7 +3,8 @@ import {ApiResponseModel, Book} from '../../Model/Interface/Book'; // Update pat
 import { BookService } from '../../Service/book.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {Router, RouterLink} from '@angular/router';
-import {AuthService} from '../../Service/auth.service'; // Update path as necessary
+import {AuthService} from '../../Service/auth.service';
+import {ToastrService} from 'ngx-toastr'; // Update path as necessary
 
 @Component({
   selector: 'app-book-list',
@@ -20,6 +21,7 @@ export class BookComponent implements OnInit {
   bookService : BookService = inject(BookService);
  router : Router = inject(Router);
  authService : AuthService = inject(AuthService);
+  toastr = inject(ToastrService);
 
   ngOnInit() {
     this.getAllBooks();
@@ -28,6 +30,7 @@ export class BookComponent implements OnInit {
   getAllBooks(): void {
     this.bookService.getAllBooks().subscribe((res: ApiResponseModel) =>{
       this.books = res.data;
+      this.toastr.success('Books list loaded!');
     });
   }
 
@@ -41,9 +44,10 @@ export class BookComponent implements OnInit {
       next: (res : any) => {
         this.books = res;
         this.getAllBooks();
+        this.toastr.success('Book deleted successfully.');
       },
       error: (err: any) => {
-        console.error('Error deleting book:', err);
+        this.toastr.error('Error deleting book:', err);
       }
     })
   }
